@@ -54,8 +54,9 @@ class AppConfig extends React.Component {
             required
             name="field-size"
             id="field-size"
-            fieldLabel="Size"
-            
+            labelText="Size"
+            helpText="Size of an image in pixels"
+            textInputProps={{type: 'number', width: 'small'}}
           />
         </Form>
       </Typography>
