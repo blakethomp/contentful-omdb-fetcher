@@ -6,7 +6,7 @@ import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
 
-import { Typography, Heading, Paragraph, Form, SelectField, Option } from '@contentful/forma-36-react-components';
+import { Typography, Heading, Note, Form, SelectField, Option } from '@contentful/forma-36-react-components';
 
 init(sdk => {
   const root = document.getElementById('root');
@@ -24,7 +24,7 @@ class AppConfig extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      parameters: { animal: 'cat', size: '500' },
+      parameters: { animal: 'cat' },
       ready: false
     };
   }
@@ -47,22 +47,26 @@ class AppConfig extends React.Component {
     
     return (
       <Typography>
-        <Heading>Unsplash app</Heading>
-        <Paragraph>Short desc</Paragraph>
+        <Heading>Daily Animal app</Heading>
+        <Note noteType="primary">
+          Make life of your editors a little bit better with a cute animal picture in the entry editor sidebar.
+        </Note>
         <Form>
-        <SelectField
-          required
-          name="animal-selection"
-          id="animal-selection"
-          labelText="Animal"
-          helpText="Size of an image in pixels"
-          textInputProps={{type: 'number', width: 'small'}}
-        >
-          <Option>Cat</Option>
-          <Option>Dog</Option>
-          <Option>Owl</Option>
-        </SelectField>
-          </Form>
+          <SelectField
+            required
+            name="animal-selection"
+            id="animal-selection"
+            labelText="Animal"
+            helpText="Pick the best kind of animal!"
+            selectProps={{ width: 'medium' }}
+            value={this.state.parameters.animal}
+            onChange={e => this.setState({ parameters: { animal: e.target.value } })}
+          >
+            <Option value="cat">Cat</Option>
+            <Option value="dog">Dog</Option>
+            <Option value="owl">Owl</Option>
+          </SelectField>
+        </Form>
       </Typography>
     );
   }
