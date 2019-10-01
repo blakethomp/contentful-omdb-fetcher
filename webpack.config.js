@@ -2,10 +2,10 @@ const path = require('path');
 
 module.exports = {
   mode: 'production',
-  context: path.join(__dirname, './'),
+  context: path.resolve(__dirname, './'),
   entry: './app/app.jsx',
   output: {
-    path: path.join(__dirname, 'public'),
+    path: path.resolve(__dirname, './public'),
     filename: 'bundle.js',
   },
   resolve: {
@@ -17,8 +17,8 @@ module.exports = {
         test: /\.jsx?$/,
         loader: 'jsx-loader',
         exclude: /node_modules/,
-        include: path.join(__dirname, 'app'),
-      },
+        include: path.resolve(__dirname, './app'),
+      }
     ],
-  },
+  }
 };

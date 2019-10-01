@@ -1,18 +1,13 @@
-// server.js
+const path = require('path');
+const express = require('express');
+const app = express();
 
-// init project
-var express = require('express');
-var app = express();
-
-// http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
-// http://expressjs.com/en/starter/basic-routing.html
-app.get("/", function(request, response) {
-  response.sendFile(__dirname + '/app/index.html');
+app.get('/', (_, res) => {
+  res.sendFile(path.resolve(__dirname, './app/index.html'));
 });
 
-// listen for requests :)
-var listener = app.listen(process.env.PORT, () => console.log(`Listening on ${process.env.PORT`)
-  console.log('Your app is listening on port ' + listener.address().port);
+app.listen(process.env.PORT, () => {
+  console.log(`Listening on ${process.env.PORT}.`);
 });
