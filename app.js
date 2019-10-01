@@ -6,7 +6,7 @@ import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
 
-import { Note } from '@contentful/forma-36-react-components';
+import { Typography, Heading } from '@contentful/forma-36-react-components';
 
 init(sdk => {
   const root = document.getElementById('root');
@@ -30,7 +30,7 @@ class AppConfig extends React.Component {
   }
   
   async componentDidMount () {
-    const { app } = this.sdk.platformAlpha;
+    const { app } = this.props.sdk.platformAlpha;
 
     app.onConfigure(this.onConfigure.bind(this));
     
@@ -53,7 +53,20 @@ class AppConfig extends React.Component {
   }
   
   onConfigure () {
+    const { animal, size } = this.state.parameters
+    const valid = Number.isInteger(parseInt(size, 10)) && size >= 100 && size <= 1000;
     
+    if (!valid) {
+      Notification.error('Size must be a number between 100 and 1000.');
+      return false;
+    }
+    
+    return {
+      parameters: { animal, size },
+      targetState: {
+        EditorInterface: {}
+      }
+    };
   }
 }
 
