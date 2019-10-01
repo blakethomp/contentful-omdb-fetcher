@@ -6,7 +6,7 @@ import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
 
-import { Typography, Heading, Paragraph, Form, TextField } from '@contentful/forma-36-react-components';
+import { Typography, Heading, Paragraph, Form, SelectField, Option } from '@contentful/forma-36-react-components';
 
 init(sdk => {
   const root = document.getElementById('root');
@@ -50,15 +50,19 @@ class AppConfig extends React.Component {
         <Heading>Unsplash app</Heading>
         <Paragraph>Short desc</Paragraph>
         <Form>
-          <TextField
-            required
-            name="field-size"
-            id="field-size"
-            labelText="Size"
-            helpText="Size of an image in pixels"
-            textInputProps={{type: 'number', width: 'small'}}
-          />
-        </Form>
+        <SelectField
+          required
+          name="animal-selection"
+          id="animal-selection"
+          labelText="Animal"
+          helpText="Size of an image in pixels"
+          textInputProps={{type: 'number', width: 'small'}}
+        >
+          <Option>Cat</Option>
+          <Option>Dog</Option>
+          <Option>Owl</Option>
+        </SelectField>
+          </Form>
       </Typography>
     );
   }
