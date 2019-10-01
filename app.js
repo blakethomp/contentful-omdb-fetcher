@@ -48,7 +48,7 @@ class AppConfig extends React.Component {
     return (
       <Typography>
         <Heading>Daily Animal app</Heading>
-        <Note noteType="primary">
+        <Note noteType="primary" title="About the app">
           Make life of your editors a little bit better with a cute animal picture in the entry editor sidebar.
         </Note>
         <Form>
@@ -58,7 +58,6 @@ class AppConfig extends React.Component {
             id="animal-selection"
             labelText="Animal"
             helpText="Pick the best kind of animal!"
-            selectProps={{ width: 'medium' }}
             value={this.state.parameters.animal}
             onChange={e => this.setState({ parameters: { animal: e.target.value } })}
           >
@@ -67,21 +66,16 @@ class AppConfig extends React.Component {
             <Option value="owl">Owl</Option>
           </SelectField>
         </Form>
+        <pre>{JSON.stringify(this.state, null ,2)}</pre>
       </Typography>
     );
   }
   
   onConfigure () {
-    const { animal, size } = this.state.parameters
-    const valid = Number.isInteger(parseInt(size, 10)) && size >= 100 && size <= 1000;
-    
-    if (!valid) {
-      Notification.error('Size must be a number between 100 and 1000.');
-      return false;
-    }
-    
+    const contentTypes = this.props.sdk.space.getContentTypes()
+    console.log(contentTypes)
     return {
-      parameters: { animal, size },
+      parameters: this.state.parameters,
       targetState: {
         EditorInterface: {}
       }
@@ -89,6 +83,8 @@ class AppConfig extends React.Component {
   }
 }
 
-class AppSidebar extends React.Component {
-  
+function AppSidebar () {
+  const animal = sdk.parameters.inanimal || 
+        
+  return <img src={`https://source.unsplash.com/300/300/?${animal}`} />
 }
