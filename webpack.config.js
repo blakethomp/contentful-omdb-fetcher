@@ -9,15 +9,16 @@ module.exports = {
     filename: 'bundle.js',
   },
   resolve: {
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js'],
   },
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
-        loader: 'jsx-loader',
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        include: path.resolve(__dirname, './app'),
+        use: {
+          loader: "babel-loader"
+        }
       }
     ],
   }
