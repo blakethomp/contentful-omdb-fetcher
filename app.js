@@ -8,27 +8,19 @@ import '@contentful/forma-36-fcss/dist/styles.css';
 
 import { Typography, Heading, Note, Form, SelectField, Option } from '@contentful/forma-36-react-components';
 
+const DEFAULT_ANIMAL = 'cat';
+
 init(sdk => {
-  const root = document.getElementById('root');
-  
-  if (sdk.location.is(locations.LOCATION_APP)) {
-    render(<AppConfig sdk={sdk} />, root);
-  }
-  
-  if (sdk.location.is(locations.LOCATION_ENTRY_SIDEBAR)) {
-    render(<AppSidebar sdk={sdk} />, root);
-  }
+  const Component = sdk.location.is(locations.LOCATION_APP) ? AppConfig : AppSidebar;
+  render(<Component sdk={sdk} />, document.getElementById('root'));
 });
 
 class AppConfig extends React.Component {
   constructor (props) {
     super(props);
-    this.state = {
-      parameters: { animal: 'cat' },
-      ready: false
-    };
+    this.state = { parameters: {}, ready: false };
   }
-  
+
   async componentDidMount () {
     const { app } = this.props.sdk.platformAlpha;
 
@@ -46,28 +38,25 @@ class AppConfig extends React.Component {
     }
     
     return (
-      <Typography>
+      <Form>
         <Heading>Daily Animal app</Heading>
         <Note noteType="primary" title="About the app">
           Make life of your editors a little bit better with a cute animal picture in the entry editor sidebar.
         </Note>
-        <Form>
-          <SelectField
-            required
-            name="animal-selection"
-            id="animal-selection"
-            labelText="Animal"
-            helpText="Pick the best kind of animal!"
-            value={this.state.parameters.animal}
-            onChange={e => this.setState({ parameters: { animal: e.target.value } })}
-          >
-            <Option value="cat">Cat</Option>
-            <Option value="dog">Dog</Option>
-            <Option value="owl">Owl</Option>
-          </SelectField>
-        </Form>
-        <pre>{JSON.stringify(this.state, null ,2)}</pre>
-      </Typography>
+        <SelectField
+          required
+          name="animal-selection"
+          id="animal-selection"
+          labelText="Animal"
+          helpText="Pick the best kind of animal!"
+          value={this.state.parameters.animal || DEFAULT_ANIMAL}
+          onChange={e => this.setState({ parameters: { animal: e.target.value } })}
+        >
+          <Option value={DEFAULT_ANIMAL}>Cat</Option>
+          <Option value="dog">Dog</Option>
+          <Option value="owl">Owl</Option>
+        </SelectField>
+      </Form>
     );
   }
   
@@ -83,8 +72,8 @@ class AppConfig extends React.Component {
   }
 }
 
-function AppSidebar () {
-  const animal = sdk.parameters.inanimal || 
+function AppSidebar ({ sdk }) {
+  const animal = sdk.parameters.installation.animal || DEFAULT_ANIMAL;
         
   return <img src={`https://source.unsplash.com/300/300/?${animal}`} />
 }
