@@ -11,6 +11,7 @@ const DEFAULT_ANIMAL = 'cat';
 init(sdk => {
   const Component = sdk.location.is(locations.LOCATION_APP) ? Config : AnimalPicture;
   render(<Component sdk={sdk} />, document.getElementById('root'));
+  sdk.window.startAutoResizer();
 });
 
 class Config extends React.Component {
@@ -27,7 +28,7 @@ class Config extends React.Component {
   
   render () {
     return (
-      <Form>
+      <Form id="app-config">
         <Heading>Daily Animal app</Heading>
         <Note noteType="primary" title="About the app">
           Make editors in this space a little bit happier with a cute animal picture in the entry editor sidebar.
@@ -55,7 +56,9 @@ class Config extends React.Component {
     return {
       parameters: this.state.parameters,
       targetState: {
-        EditorInterface: {}
+        EditorInterface: contentTypeIds.reduce((acc, id) => {
+          return { ...acc, [id]: { sidebar: { position: 0 } } }
+        }, {})
       }
     };
   }
@@ -63,6 +66,7 @@ class Config extends React.Component {
 
 function AnimalPicture ({ sdk }) {
   const animal = sdk.parameters.installation.animal || DEFAULT_ANIMAL;
-        
-  return <img src={`https://source.unsplash.com/300/300/?${animal}`} />
+  const src = `https://source.unsplash.com/250x250/?${animal}`;
+  
+  return <img alt={animal} id="animal-picture" src={src} />
 }
