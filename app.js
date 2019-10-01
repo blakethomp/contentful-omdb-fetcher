@@ -1,6 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const HelloWorld = () => <h1>Hello world!</h1>;
+import { init, locations } from 'contentful-ui-extensions-sdk';
+
+import '@contentful/forma-36-react-components/dist/styles.css'
+import '@contentful/forma-36-fcss/dist/styles.css'
+
+import { Button } from '@contentful/forma-36-react-components'
+
+const HelloWorld = () => <Button>Hello world!</Button>;
 
 ReactDOM.render(<HelloWorld/>, document.getElementById('root'));
