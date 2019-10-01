@@ -3,11 +3,14 @@ import ReactDOM from 'react-dom';
 
 import { init, locations } from 'contentful-ui-extensions-sdk';
 
-import '@contentful/forma-36-react-components/dist/styles.css'
 import '@contentful/forma-36-fcss/dist/styles.css'
+import '@contentful/forma-36-react-components/dist/styles.css'
 
-import { Button } from '@contentful/forma-36-react-components'
 
-const HelloWorld = () => <Button>Hello world!</Button>;
+import { Button } from '@contentful/forma-36-react-components';
 
-ReactDOM.render(<HelloWorld/>, document.getElementById('root'));
+const root = document.getElementById('root');
+
+const HelloWorld = () => <Button buttonType="primary" onClick={() => alert('test')}>Hello world!</Button>;
+
+ReactDOM.render(<HelloWorld />, root);

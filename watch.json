@@ -9,9 +9,7 @@
       "^public/"
     ],
     "include": [
-      "\\.js$",
-      "\\.jsx$",
-      "\\.json"
+      "\\.js$"
     ]
   },
   "throttle": 100
