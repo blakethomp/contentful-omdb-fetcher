@@ -1,8 +1,10 @@
-const path = require('path');
+// server.js
 
-const express = require('express');
-const app = express();
+// init project
+var express = require('express');
+var app = express();
 
+// http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
 // http://expressjs.com/en/starter/basic-routing.html
