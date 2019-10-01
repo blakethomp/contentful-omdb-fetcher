@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { render } from 'react-dom';
 
 import { init, locations } from 'contentful-ui-extensions-sdk';
@@ -10,19 +10,20 @@ const DEFAULT_ANIMAL = 'cat';
 
 init(sdk => {
   const Component = sdk.location.is(locations.LOCATION_APP) ? Config : AnimalPicture;
+
   render(<Component sdk={sdk} />, document.getElementById('root'));
   sdk.window.startAutoResizer();
 });
 
-class Config extends React.Component {
+class Config extends Component {
   constructor (props) {
     super(props);
     this.state = { parameters: {} };
     this.app = this.props.sdk.platformAlpha.app;
+    this.app.onConfigure(() => this.onConfigure());
   }
   
   async componentDidMount () {
-    this.app.onConfigure(() => this.onConfigure());
     this.setState({ parameters: await this.app.getParameters() });
   }
   
@@ -48,9 +49,9 @@ class Config extends React.Component {
       </Form>
     );
   }
-  
+
   async onConfigure () {
-    const { items: contentTypes } = await this.props.sdk.space.getContentTypes()
+    const { items: contentTypes } = await this.props.sdk.space.getContentTypes();
     const contentTypeIds = contentTypes.map(ct => ct.sys.id)
 
     return {
