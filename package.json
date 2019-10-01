@@ -19,6 +19,8 @@
     "@babel/core": "7.6.0",
     "@babel/preset-env": "7.6.2",
     "@babel/preset-react": "7.0.0",
+    "@babel/plugin-transform-runtime": "7.6.0",
+    "@babel/runtime": "7.5.4",
     "react": "16.10.1",
     "react-dom": "16.10.1",
     "contentful-ui-extensions-sdk": "3.9.2",
