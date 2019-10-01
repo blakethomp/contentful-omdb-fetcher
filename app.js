@@ -8,29 +8,53 @@ import '@contentful/forma-36-fcss/dist/styles.css';
 
 import { Note } from '@contentful/forma-36-react-components';
 
-const root = document.getElementById('root');
-
-
 init(sdk => {
-  if (sdk.location.is(locations.LOCATION_AP)) {
+  const root = document.getElementById('root');
+  
+  if (sdk.location.is(locations.LOCATION_APP)) {
     render(<AppConfig sdk={sdk} />, root);
-  } else if (sdk.location.is(locations.LOCATION_ENTRY_SIDEBAR)) {
+  }
+  
+  if (sdk.location.is(locations.LOCATION_ENTRY_SIDEBAR)) {
     render(<AppSidebar sdk={sdk} />, root);
   }
-})
+});
 
 class AppConfig extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {
+      parameters: { animal: 'cat', size: '500' },
+      ready: false
+    };
+  }
   
   async componentDidMount () {
-    const parameters = await this.sdk.platformAlpha.app.getParameters();
+    const { app } = this.sdk.platformAlpha;
+
+    app.onConfigure(this.onConfigure.bind(this));
     
-    this.setState({ parameters })
+    this.setState({
+      parameters: await app.getParameters(),
+      ready: true
+    });    
+  }
+  
+  render () {
+    if (!this.state.ready) {
+      return null
+    }
+    
+    return (
+      <Typography>
+        <Heading>Unsplash app</Heading>
+      </Typography>
+    );
   }
   
   onConfigure () {
     
   }
-  
 }
 
 class AppSidebar extends React.Component {
