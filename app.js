@@ -6,7 +6,7 @@ import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
 
-import { Typography, Heading } from '@contentful/forma-36-react-components';
+import { Typography, Heading, Paragraph, Form, TextField } from '@contentful/forma-36-react-components';
 
 init(sdk => {
   const root = document.getElementById('root');
@@ -48,6 +48,16 @@ class AppConfig extends React.Component {
     return (
       <Typography>
         <Heading>Unsplash app</Heading>
+        <Paragraph>Short desc</Paragraph>
+        <Form>
+          <TextField
+            required
+            name="field-size"
+            id="field-size"
+            fieldLabel="Size"
+            
+          />
+        </Form>
       </Typography>
     );
   }
