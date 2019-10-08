@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
-import { Spinner, Heading, Note, Form, SelectField, Option } from '@contentful/forma-36-react-components';
+import { Heading, Note, Form, SelectField, Option } from '@contentful/forma-36-react-components';
 
 const DEFAULT_ANIMAL = 'cat';
 
@@ -24,7 +24,8 @@ class Config extends Component {
   }
   
   async componentDidMount () {
-    this.setState({ parameters: await this.app.getParameters() });
+    const parameters = await this.app.getParameters();
+    this.setState({ parameters: parameters || {} });
   }
   
   render () {
