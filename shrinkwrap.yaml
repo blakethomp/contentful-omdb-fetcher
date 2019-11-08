@@ -8,7 +8,7 @@ dependencies:
   '@contentful/forma-36-react-components': 3.15.9
   '@contentful/forma-36-tokens': 0.4.5
   babel-loader: 8.0.5
-  contentful-ui-extensions-sdk: 3.9.2
+  contentful-ui-extensions-sdk: 3.10.0
   css-loader: 3.2.0
   express: 4.17.1
   react: 16.10.1
@@ -1431,12 +1431,12 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-hIP3EEPs8tB9AT1L+NUqtwOAps4mk2Zob89MWXMHjHWg9milF/j4osnnQLXBCBFBk/tvIG/tUc9mOUJiPBhPXA==
-  /contentful-ui-extensions-sdk/3.9.2:
+  /contentful-ui-extensions-sdk/3.10.0:
     dependencies:
       es6-promise: 4.2.8
     dev: false
     resolution:
-      integrity: sha512-1TAeaSuQLP8oZ/MQ/Y0XqollRQEDjv0jFy4Q+hWOF1iLDjcie7UVh8kcTkYNTui+0AHcHC1fAb9YnL5bI5pzkw==
+      integrity: sha512-MzH9VplQg8Taprp/4wSZfaP4i5JyZCc4yYVS2i18YFfDUUKdSw0WnvW/aTcpMdEUSHi1uBLYv42cxD3dH/6Wig==
   /convert-source-map/1.6.0:
     dependencies:
       safe-buffer: 5.1.2
@@ -4429,7 +4429,7 @@ specifiers:
   '@contentful/forma-36-react-components': 3.15.9
   '@contentful/forma-36-tokens': 0.4.5
   babel-loader: 8.0.5
-  contentful-ui-extensions-sdk: 3.9.2
+  contentful-ui-extensions-sdk: 3.10.0
   css-loader: 3.2.0
   express: 4.17.1
   react: 16.10.1

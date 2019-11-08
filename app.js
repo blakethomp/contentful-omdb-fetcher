@@ -27,7 +27,7 @@ class Config extends Component {
     const parameters = await this.app.getParameters();
     this.setState(
       { parameters: parameters || {} },
-      
+      () => this.app.setReady()
     );
   }
   
