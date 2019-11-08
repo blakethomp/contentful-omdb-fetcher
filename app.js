@@ -25,7 +25,10 @@ class Config extends Component {
   
   async componentDidMount () {
     const parameters = await this.app.getParameters();
-    this.setState({ parameters: parameters || {} });
+    this.setState(
+      { parameters: parameters || {} },
+      
+    );
   }
   
   render () {
