@@ -9,7 +9,7 @@ import { Heading, Note, Form, SelectField, Option } from '@contentful/forma-36-r
 const DEFAULT_ANIMAL = 'cat';
 
 init(sdk => {
-  const Component = sdk.location.is(locations.LOCATION_APP) ? Config : AnimalPicture;
+  const Component = sdk.location.is(locations.LOCATION_APP_CONFIG) ? Config : AnimalPicture;
 
   render(<Component sdk={sdk} />, document.getElementById('root'));
   sdk.window.startAutoResizer();
@@ -19,7 +19,7 @@ class Config extends Component {
   constructor (props) {
     super(props);
     this.state = { parameters: {} };
-    this.app = this.props.sdk.platformAlpha.app;
+    this.app = this.props.sdk.app;
     this.app.onConfigure(() => this.onConfigure());
   }
   
