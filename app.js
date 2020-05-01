@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import https from 'https';
 
 import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
@@ -58,7 +59,26 @@ class Config extends Component {
 
 function ObjectField ({ sdk }) {
   const apiKey = sdk.parameters.installation.omdbApiKey || null;
-  const src = `https://source.unsplash.com/250x250/?${animal}`;
+  const req = https.request({
+      hostname: 'www.omdbapi.com',
+      port: 443,
+      path: `/?apikey=${apiKey}&i=tt8368406`,
+      method: 'GET'
+    }, res => {
+    console.log(`statusCode: ${res.statusCode}`)
+
+    res.on('data', d => {
+      process.stdout.write(d)
+    })
+  })
+
+  req.on('error', error => {
+    console.error(error)
+  })
+
+  req.end()
   
   return <img alt={animal} id="animal-picture" src={src} />
 }
+
+async function 
