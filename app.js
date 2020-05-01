@@ -76,10 +76,11 @@ async function getMovie(imdbId, sdk) {
   const apiKey = sdk.parameters.installation.omdbApiKey || null;
   if (apiKey) {
     try {
-      const response = await fetch(`https://www.omdbapi.com?apikey=${apiKey}&id=${imdbId}`);
-      console.log(response.body.url);
+      const response = await fetch(`https://www.omdbapi.com?apikey=${apiKey}&i=${imdbId}`);
+      console.log(response.body);
       console.log(response.body.explanation);
-      return response;
+      console.log(response);
+      return response.json();
     } catch (error) {
       console.log(error.response.body);
       return error.response.body;
