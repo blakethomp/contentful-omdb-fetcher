@@ -64,10 +64,10 @@ function ObjectField ({ sdk }) {
     getMovie('tt8368406', sdk)
   }
   
-  const validateAndSave = debounce(function(str) => {
-    console.log(str);
+  const validateAndSave = debounce(function(str) {
     if (str === '') {
       sdk.field.setInvalid(false);
+      sdk.field.removeValue();
     } else if (isValidJson(str)) {
       const val = JSON.parse(str);
       sdk.field.setInvalid(false);
@@ -80,8 +80,8 @@ function ObjectField ({ sdk }) {
   return (
     <Textarea
       value={data}
-      readonly
-      onChange={validateAndSave}
+      readOnly={false}
+      onChange={e => {validateAndSave(e.target.value)}}
     />
   )
 }
