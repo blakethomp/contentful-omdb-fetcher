@@ -64,6 +64,25 @@ function ObjectField ({ sdk }) {
     getMovie('tt8368406', sdk)
   }
   
+  const validateAndSave = debounce(str => {
+    if (str === '') {
+      updateValidationMessage(true); // don't show invalid message
+    } else if (isValidJson(str)) {
+      var val = JSON.parse(str);
+      updateValidationMessage(val);
+      sdk.field.setValue(val);
+    } else {
+      updateValidationMessage(false)
+    }
+  }, 150);
+
+  const updateValidationMessage = valid => {
+    if (valid !== inputValid) {
+      elements.info.innerHTML = valid ? '' : 'JSON is invalid';
+      inputValid = valid;
+    }
+  };
+  
   return (
     <Textarea
       value={data}
@@ -88,17 +107,31 @@ async function getMovie(imdbId, sdk) {
 }
 
 // http://davidwalsh.name/javascript-debounce-function
-const debounce = function(func, wait, immediate) {
+const debounce = (func, wait, immediate) => {
    let timeout;
    return function() {
-     var context = this, args = arguments;
-     var later = function() {
+     const context = this, args = arguments;
+     const later = function() {
        timeout = null;
        if (!immediate) func.apply(context, args);
      };
-     var callNow = immediate && !timeout;
+     const callNow = immediate && !timeout;
      clearTimeout(timeout);
      timeout = setTimeout(later, wait);
      if (callNow) func.apply(context, args);
    };
+};
+
+const isValidJson = str => {
+  let parsed;
+  try {
+     parsed = JSON.parse(str)
+  } catch (e) {
+     return false;
+  }
+  // An object or array is valid JSON
+  if (typeof parsed !== 'object') {
+     return false;
+  }
+  return true;
 };
