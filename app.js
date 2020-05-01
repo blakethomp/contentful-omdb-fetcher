@@ -64,29 +64,24 @@ function ObjectField ({ sdk }) {
     getMovie('tt8368406', sdk)
   }
   
-  const validateAndSave = debounce(str => {
+  const validateAndSave = debounce(function(str) => {
+    console.log(str);
     if (str === '') {
-      updateValidationMessage(true); // don't show invalid message
+      sdk.field.setInvalid(false);
     } else if (isValidJson(str)) {
-      var val = JSON.parse(str);
-      updateValidationMessage(val);
+      const val = JSON.parse(str);
+      sdk.field.setInvalid(false);
       sdk.field.setValue(val);
     } else {
-      updateValidationMessage(false)
+      sdk.field.setInvalid(true)
     }
   }, 150);
-
-  const updateValidationMessage = valid => {
-    if (valid !== inputValid) {
-      elements.info.innerHTML = valid ? '' : 'JSON is invalid';
-      inputValid = valid;
-    }
-  };
   
   return (
     <Textarea
       value={data}
       readonly
+      onChange={validateAndSave}
     />
   )
 }
