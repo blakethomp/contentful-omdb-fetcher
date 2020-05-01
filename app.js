@@ -4,10 +4,10 @@ import { render } from 'react-dom';
 import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
-import { Heading, Note, Form, SelectField, Option } from '@contentful/forma-36-react-components';
+import { Heading, Note, Form, TextField } from '@contentful/forma-36-react-components';
 
 init(sdk => {
-  const Component = sdk.location.is(locations.LOCATION_APP_CONFIG) ? Config : AnimalPicture;
+  const Component = sdk.location.is(locations.LOCATION_APP_CONFIG) ? Config : ObjectField;
 
   render(<Component sdk={sdk} />, document.getElementById('root'));
   sdk.window.startAutoResizer();
@@ -36,39 +36,28 @@ class Config extends Component {
         <Note noteType="primary" title="About the app">
           Enter your OMDB API key.
         </Note>
-        <SelectField
+        <TextField
           required
-          name="animal-selection"
-          id="animal-selection"
-          labelText="Animal"
-          value={this.state.parameters.animal || DEFAULT_ANIMAL}
-          onChange={e => this.setState({ parameters: { animal: e.target.value } })}
+          name="omdb-api-key"
+          id="omdb-api-key"
+          labelText="OMDB API Key"
+          value={this.state.parameters.omdbApiKey || null}
+          onChange={e => this.setState({ parameters: { omdbApiKey: e.target.value } })}
         >
-          <Option value={DEFAULT_ANIMAL}>Cat</Option>
-          <Option value="dog">Dog</Option>
-          <Option value="owl">Owl</Option>
-        </SelectField>
+        </TextField>
       </Form>
     );
   }
 
   async onConfigure () {
-    const { items: contentTypes } = await this.props.sdk.space.getContentTypes();
-    const contentTypeIds = contentTypes.map(ct => ct.sys.id)
-
     return {
-      parameters: this.state.parameters,
-      targetState: {
-        EditorInterface: contentTypeIds.reduce((acc, id) => {
-          return { ...acc, [id]: { sidebar: { position: 0 } } }
-        }, {})
-      }
+      parameters: this.state.parameters
     };
   }
 }
 
-function AnimalPicture ({ sdk }) {
-  const animal = sdk.parameters.installation.animal || DEFAULT_ANIMAL;
+function ObjectField ({ sdk }) {
+  const apiKey = sdk.parameters.installation.omdbApiKey || null;
   const src = `https://source.unsplash.com/250x250/?${animal}`;
   
   return <img alt={animal} id="animal-picture" src={src} />
