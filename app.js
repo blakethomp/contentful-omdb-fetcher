@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { render } from 'react-dom';
 
 import { init, locations } from 'contentful-ui-extensions-sdk';
@@ -57,6 +57,16 @@ class Config extends Component {
 }
 
 function ObjectField ({ sdk }) {
+  const [product, setProduct] = useState(null);
+
+  useEffect(() => {
+    async function fetchProduct() {      
+      const response = await fetch('http://myapi/product/' + productId);      
+      const json = await response.json();      setProduct(json);    
+    }
+    fetchProduct();
+  }, [sdk]);
+  
   let data = sdk.field.getValue();
   console.log(data);
   console.log(sdk.entry.fields['imdb']);
