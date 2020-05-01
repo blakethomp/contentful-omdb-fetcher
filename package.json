@@ -27,6 +27,6 @@
     "@contentful/forma-36-react-components": "3.15.9",
     "@contentful/forma-36-fcss": "0.0.31",
     "@contentful/forma-36-tokens": "0.4.5",
-    "got": "^11.0.3"
+    "ky": "^0.19.1"
   }
 }
