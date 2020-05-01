@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import https from 'https';
+import got from 'got';
 
 import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
@@ -81,4 +81,12 @@ function ObjectField ({ sdk }) {
   return <img alt={animal} id="animal-picture" src={src} />
 }
 
-async function 
+async function getMovie(imdbId) {
+  try {
+    const response = await got(`https://www.omdbapi.com?apikey=${apiKey}`, { json: true });
+    console.log(response.body.url);
+    console.log(response.body.explanation);
+  } catch (error) {
+    console.log(error.response.body);
+  }
+}
