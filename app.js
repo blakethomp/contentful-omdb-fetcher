@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import got from 'got';
 
 import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
@@ -72,6 +71,7 @@ async function ObjectField ({ sdk }) {
       textInputProps={{
         readonly: true
       }}
+      value={data}
     />
   )
 }
@@ -80,11 +80,11 @@ async function getMovie(imdbId, sdk) {
   const apiKey = sdk.parameters.installation.omdbApiKey || null;
   if (apiKey) {
     try {
-      const response = await got(`https://www.omdbapi.com?apikey=${apiKey}`, { json: true });
-      console.log(response.body.url);
-      console.log(response.body.explanation);
+      // const response = await got(`https://www.omdbapi.com?apikey=${apiKey}`, { json: true });
+      // console.log(response.body.url);
+      // console.log(response.body.explanation);
     } catch (error) {
-      console.log(error.response.body);
+      // console.log(error.response.body);
     }
   }
 }
