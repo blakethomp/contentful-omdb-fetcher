@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
-import { Heading, Note, Form, TextField } from '@contentful/forma-36-react-components';
+import { Heading, Note, Form, TextArea } from '@contentful/forma-36-react-components';
 
 init(sdk => {
   const Component = sdk.location.is(locations.LOCATION_APP_CONFIG) ? Config : ObjectField;
@@ -65,11 +65,7 @@ function ObjectField ({ sdk }) {
   }
   
   return (
-    <TextField
-      textarea
-      textInputProps={{
-        readonly: true
-      }}
+    <TextArea
       value={data}
     />
   )
@@ -82,8 +78,11 @@ async function getMovie(imdbId, sdk) {
       const response = await fetch(`https://www.omdbapi.com?apikey=${apiKey}&id=${imdbId}`);
       console.log(response.body.url);
       console.log(response.body.explanation);
+      return response;
     } catch (error) {
       console.log(error.response.body);
+      return error.response.body;
     }
   }
+  return '';
 }
