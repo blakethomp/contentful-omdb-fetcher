@@ -6,8 +6,8 @@ import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
 import { Heading, Note, Form, TextField } from '@contentful/forma-36-react-components';
 
-init(async (sdk) => {
-  const Component = sdk.location.is(locations.LOCATION_APP_CONFIG) ? Config : await ObjectField;
+init(sdk => {
+  const Component = sdk.location.is(locations.LOCATION_APP_CONFIG) ? Config : ObjectField;
 
   render(<Component sdk={sdk} />, document.getElementById('root'));
   sdk.window.startAutoResizer();
@@ -56,17 +56,16 @@ class Config extends Component {
   }
 }
 
-async function ObjectField ({ sdk }) {
+function ObjectField ({ sdk }) {
   let data = sdk.field.getValue();
   console.log(data);
   console.log(sdk.entry.fields['imdb']);
   if (!data) {
-    const omdbData = getMovie('tt8368406', sdk)
+    data = getMovie('tt8368406', sdk)
   }
   
   return (
     <TextField
-      labelText="OMDB Data"
       textarea
       textInputProps={{
         readonly: true
