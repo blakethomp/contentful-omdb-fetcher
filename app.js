@@ -61,7 +61,7 @@ function ObjectField ({ sdk }) {
   console.log(data);
   console.log(sdk.entry.fields['imdb']);
   if (!data) {
-    data = getMovie('tt8368406', sdk)
+    getMovie('tt8368406', sdk)
   }
   
   return (
@@ -78,13 +78,11 @@ async function getMovie(imdbId, sdk) {
     try {
       const response = await fetch(`https://www.omdbapi.com?apikey=${apiKey}&i=${imdbId}`);
       console.log(response.body);
-      console.log(response.body.explanation);
-      console.log(response);
-      return response.json();
+      const data = await response.text();
+      console.log(data)
+      sdk.field.setValue(data);
     } catch (error) {
       console.log(error.response.body);
-      return error.response.body;
     }
   }
-  return '';
 }
