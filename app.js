@@ -32,9 +32,9 @@ class Config extends Component {
   render () {
     return (
       <Form id="app-config">
-        <Heading>Daily Animal app</Heading>
+        <Heading>OMDB Configuration</Heading>
         <Note noteType="primary" title="About the app">
-          Make editors in this space a little bit happier with a cute animal picture in the entry editor sidebar.
+          Enter your OMDB API key.
         </Note>
         <SelectField
           required
