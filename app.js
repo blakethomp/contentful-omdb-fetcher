@@ -60,17 +60,15 @@ function ObjectField ({ sdk }) {
   let data = sdk.field.getValue();
   console.log(data);
   console.log(sdk.entry.fields['imdb']);
-  if (!data) {
+  if (!data || Object.keys(data).length === 0) {
     getMovie('tt8368406', sdk)
   }
   
   const validateAndSave = debounce(function(str) {
-    
+    console.log(str, 'str');
     if (str === '') {
       sdk.field.setInvalid(false);
-      sdk.field.setValue('{}');
-      console.log(str);
-      console.log(sdk.field.getValue());
+      sdk.field.removeValue();
     } else if (isValidJson(str)) {
       const val = JSON.parse(str);
       sdk.field.setInvalid(false);
@@ -95,7 +93,7 @@ async function getMovie(imdbId, sdk) {
     try {
       const response = await fetch(`https://www.omdbapi.com?apikey=${apiKey}&i=${imdbId}`);
       console.log(response.body);
-      const data = await response.text();
+      const data = await response.json();
       console.log(data, 'data')
       sdk.field.setValue(data);
     } catch (error) {
