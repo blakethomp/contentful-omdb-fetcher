@@ -66,7 +66,7 @@ function ObjectField ({ sdk }) {
   
   return (
     <TextArea
-      value={data}
+      value="barf"
     />
   )
 }
