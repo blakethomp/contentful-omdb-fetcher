@@ -65,9 +65,12 @@ function ObjectField ({ sdk }) {
   }
   
   const validateAndSave = debounce(function(str) {
+    
     if (str === '') {
       sdk.field.setInvalid(false);
-      sdk.field.removeValue();
+      sdk.field.setValue('{}');
+      console.log(str);
+      console.log(sdk.field.getValue());
     } else if (isValidJson(str)) {
       const val = JSON.parse(str);
       sdk.field.setInvalid(false);
@@ -79,7 +82,7 @@ function ObjectField ({ sdk }) {
   
   return (
     <Textarea
-      value={data}
+      value={JSON.stringify(data)}
       readOnly={false}
       onChange={e => {validateAndSave(e.target.value)}}
     />
@@ -93,7 +96,7 @@ async function getMovie(imdbId, sdk) {
       const response = await fetch(`https://www.omdbapi.com?apikey=${apiKey}&i=${imdbId}`);
       console.log(response.body);
       const data = await response.text();
-      console.log(data)
+      console.log(data, 'data')
       sdk.field.setValue(data);
     } catch (error) {
       console.log(error.response.body);
