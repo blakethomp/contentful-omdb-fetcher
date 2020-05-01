@@ -57,36 +57,26 @@ class Config extends Component {
   }
 }
 
-function ObjectField ({ sdk }) {
-  const apiKey = sdk.parameters.installation.omdbApiKey || null;
-  const req = https.request({
-      hostname: 'www.omdbapi.com',
-      port: 443,
-      path: `/?apikey=${apiKey}&i=tt8368406`,
-      method: 'GET'
-    }, res => {
-    console.log(`statusCode: ${res.statusCode}`)
-
-    res.on('data', d => {
-      process.stdout.write(d)
-    })
-  })
-
-  req.on('error', error => {
-    console.error(error)
-  })
-
-  req.end()
+async function ObjectField ({ sdk }) {
+  let data = sdk.field.getValue();
+  console.log(data);
+  console.log(sdk.entry.fields['imdb']);
+  if (!data) {
+    const omdbData = await getMovie('tt8368406', sdk)
+  }
   
   return <img alt={animal} id="animal-picture" src={src} />
 }
 
-async function getMovie(imdbId) {
-  try {
-    const response = await got(`https://www.omdbapi.com?apikey=${apiKey}`, { json: true });
-    console.log(response.body.url);
-    console.log(response.body.explanation);
-  } catch (error) {
-    console.log(error.response.body);
+async function getMovie(imdbId, sdk) {
+  const apiKey = sdk.parameters.installation.omdbApiKey || null;
+  if (apiKey) {
+    try {
+      const response = await got(`https://www.omdbapi.com?apikey=${apiKey}`, { json: true });
+      console.log(response.body.url);
+      console.log(response.body.explanation);
+    } catch (error) {
+      console.log(error.response.body);
+    }
   }
 }
