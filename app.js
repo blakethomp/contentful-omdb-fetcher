@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import ky from 'ky';
 
 import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
 import { Heading, Note, Form, TextField } from '@contentful/forma-36-react-components';
 
-init(sdk => {
-  const Component = sdk.location.is(locations.LOCATION_APP_CONFIG) ? Config : ObjectField;
+init(async (sdk) => {
+  const Component = sdk.location.is(locations.LOCATION_APP_CONFIG) ? Config : await ObjectField;
 
   render(<Component sdk={sdk} />, document.getElementById('root'));
   sdk.window.startAutoResizer();
@@ -62,7 +61,7 @@ async function ObjectField ({ sdk }) {
   console.log(data);
   console.log(sdk.entry.fields['imdb']);
   if (!data) {
-    const omdbData = await getMovie('tt8368406', sdk)
+    const omdbData = getMovie('tt8368406', sdk)
   }
   
   return (
@@ -81,11 +80,11 @@ async function getMovie(imdbId, sdk) {
   const apiKey = sdk.parameters.installation.omdbApiKey || null;
   if (apiKey) {
     try {
-      // const response = await got(`https://www.omdbapi.com?apikey=${apiKey}`, { json: true });
-      // console.log(response.body.url);
-      // console.log(response.body.explanation);
+      const response = await fetch(`https://www.omdbapi.com?apikey=${apiKey}&id=${imdbId}`);
+      console.log(response.body.url);
+      console.log(response.body.explanation);
     } catch (error) {
-      // console.log(error.response.body);
+      console.log(error.response.body);
     }
   }
 }

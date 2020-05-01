@@ -11,7 +11,6 @@ dependencies:
   contentful-ui-extensions-sdk: 3.10.6
   css-loader: 3.2.0
   express: 4.17.1
-  ky: 0.19.1
   react: 16.10.1
   react-dom: 16.10.1
   style-loader: 1.0.0
@@ -2648,12 +2647,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-s5kLOcnH0XqDO+FvuaLX8DDjZ18CGFk7VygH40QoKPUQhW4e2rvM0rwUq0t8IQDOwYSeLK01U90OjzBTme2QqA==
-  /ky/0.19.1:
-    dev: false
-    engines:
-      node: '>=10'
-    resolution:
-      integrity: sha512-ZwciYrfaWpDI72U2HAruuGYGFW3PCfGNdWWSANGGssg9BGm4rRJ9s/sApiiRpj+8Y245/hlZW9c60zudLr6iwA==
   /lcid/2.0.0:
     dependencies:
       invert-kv: 2.0.0
@@ -4439,7 +4432,6 @@ specifiers:
   contentful-ui-extensions-sdk: 3.10.6
   css-loader: 3.2.0
   express: 4.17.1
-  ky: ^0.19.1
   react: 16.10.1
   react-dom: 16.10.1
   style-loader: 1.0.0
