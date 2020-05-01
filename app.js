@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
-import { Heading, Note, Form, TextArea } from '@contentful/forma-36-react-components';
+import { Heading, Note, Form, TextField, Textarea } from '@contentful/forma-36-react-components';
 
 init(sdk => {
   const Component = sdk.location.is(locations.LOCATION_APP_CONFIG) ? Config : ObjectField;
@@ -65,8 +65,9 @@ function ObjectField ({ sdk }) {
   }
   
   return (
-    <TextArea
-      value="barf"
+    <Textarea
+      value={data}
+      readonly
     />
   )
 }
