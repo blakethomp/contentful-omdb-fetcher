@@ -65,7 +65,15 @@ async function ObjectField ({ sdk }) {
     const omdbData = await getMovie('tt8368406', sdk)
   }
   
-  return <img alt={animal} id="animal-picture" src={src} />
+  return (
+    <TextField
+      labelText="OMDB Data"
+      textarea
+      textInputProps={{
+        readonly: true
+      }}
+    />
+  )
 }
 
 async function getMovie(imdbId, sdk) {
