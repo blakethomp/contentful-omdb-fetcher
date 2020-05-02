@@ -57,14 +57,24 @@ class Config extends Component {
 }
 
 function ObjectField ({ sdk }) {
-  const [product, setProduct] = useState(null);
+  const [movieData, setValue] = useState(null);
 
   useEffect(() => {
-    async function fetchProduct() {      
-      const response = await fetch('http://myapi/product/' + productId);      
-      const json = await response.json();      setProduct(json);    
+    async function fetchMovie() {      
+      const apiKey = sdk.parameters.installation.omdbApiKey || null;
+      if (apiKey) {
+        try {
+          const response = await fetch(`https://www.omdbapi.com?apikey=${apiKey}&i=${imdbId}`);
+          console.log(response.body);
+          const data = await response.json();
+          console.log(data, 'data')
+          sdk.field.setValue(data);
+        } catch (error) {
+          console.log(error.response.body);
+        }
+      }
     }
-    fetchProduct();
+    fetchMovie();
   }, [sdk]);
   
   let data = sdk.field.getValue();
