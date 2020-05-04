@@ -94,6 +94,13 @@ function ObjectField ({ sdk }) {
     }
   }, 150);
   
+  sdk.field.onValueChanged(
+    value => {
+      const input = document.getElementById('omdbData');
+      input.value = value || '';
+    }
+  )
+  
   return (
     <Textarea
       name="omdbData"
