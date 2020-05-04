@@ -57,7 +57,7 @@ class Config extends Component {
 }
 
 function ObjectField ({ sdk }) {
-  const [movieData, setValue] = useState(null);
+  const [buttonValue, buttonSetLoading] = useState(null);
 
   useEffect(() => {
     fetchMovie(sdk);
