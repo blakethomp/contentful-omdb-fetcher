@@ -4,7 +4,7 @@ import { render } from 'react-dom';
 import { init, locations } from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
-import { Heading, Note, Form, TextField, Textarea } from '@contentful/forma-36-react-components';
+import { Heading, Note, Form, TextField, Textarea, Button } from '@contentful/forma-36-react-components';
 
 init(sdk => {
   const Component = sdk.location.is(locations.LOCATION_APP_CONFIG) ? Config : ObjectField;
@@ -64,12 +64,15 @@ function ObjectField ({ sdk }) {
       const apiKey = sdk.parameters.installation.omdbApiKey || null;
       const imdbUrl = sdk.entry.fields['imdb'].getValue();
       const fieldData = sdk.field.getValue();
+      const input = document.getElementById('omdbData');
+      console.log(sdk.field);
       if (!fieldData && imdbUrl) {
         const [url, imdbId] = imdbUrl.match(/imdb\.com\/title\/(tt[^/]*)/);
         if (imdbId) {
           const data = await getMovie(apiKey, imdbId);
-          if (data && data.Response.toLowerCase() === 'true') {
+          if (typeof data === 'object' && data.Response.toLowerCase() === 'true') {
             validateAndSave(data);
+            input.value = JSON.stringify(data);
           } else {
             sdk.notifier.error(`Error fetching data. ${data.Error || ''}`);
           }
@@ -87,10 +90,8 @@ function ObjectField ({ sdk }) {
       sdk.field.removeValue();
     } else if (isValidJson(data)) {
       const val = typeof data === 'string' ? JSON.parse(data) : data;
-      const input = document.getElementById('omdbData');
       sdk.field.setInvalid(false);
       sdk.field.setValue(val);
-      input.value = JSON.strigify(val);
     } else {
       sdk.field.setInvalid(true)
     }
@@ -104,6 +105,9 @@ function ObjectField ({ sdk }) {
       readOnly={false}
       onChange={e => validateAndSave(e.target.value)}
     />
+    <Button
+      buttonType="primary"
+      onClick={fetchMovie}
   )
 }
 
