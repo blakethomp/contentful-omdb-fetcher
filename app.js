@@ -100,7 +100,7 @@ function ObjectField ({ sdk }) {
       console.log(input,isValidJson(value));
       if (input && isValidJson(value)) {
         input.value = JSON.stringify(value);
-        console.log(input.value);
+        console.log(input.value, 'input value');
       }
     }
   )
@@ -111,6 +111,7 @@ function ObjectField ({ sdk }) {
       id="omdbData"
       value={JSON.stringify(sdk.field.getValue())}
       readOnly={false}
+      onChange={e => validateAndSave(e.target.value)}
     />
   )
 }
@@ -144,15 +145,16 @@ const debounce = (func, wait, immediate) => {
 };
 
 const isValidJson = str => {
-  let parsed;
+  // An object or array is valid JSON
+  if (typeof str === 'object') {
+     return true;
+  }
+  
   try {
-     parsed = JSON.parse(str)
+     const parsed = JSON.parse(str)
   } catch (e) {
      return false;
   }
-  // An object or array is valid JSON
-  if (typeof parsed !== 'object') {
-     return false;
-  }
+  
   return true;
 };
