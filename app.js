@@ -87,23 +87,14 @@ function ObjectField ({ sdk }) {
       sdk.field.removeValue();
     } else if (isValidJson(data)) {
       const val = typeof data === 'string' ? JSON.parse(data) : data;
+      const input = document.getElementById('omdbData');
       sdk.field.setInvalid(false);
       sdk.field.setValue(val);
+      input.value = JSON.strigify(val);
     } else {
       sdk.field.setInvalid(true)
     }
   }, 150);
-  
-  sdk.field.onValueChanged(
-    value => {
-      const input = document.getElementById('omdbData');
-      console.log('onValueChanged', input, value, isValidJson(value));
-      if (input && isValidJson(value)) {
-        input.value = JSON.stringify(value);
-        console.log(input.value, 'input value');
-      }
-    }
-  )
   
   return (
     <Textarea
