@@ -67,7 +67,11 @@ function ObjectField ({ sdk }) {
         const [url, imdbId] = imdbUrl.match(/imdb\.com\/title\/(tt[^/]*)/);
         if (imdbId) {
           const data = await getMovie(apiKey, imdbId);
-          validateAndSave(data);
+          if (data && data.Response.toLowerCase() === 'true') {
+            validateAndSave(data);
+          } else {
+            sdk.notifier.error(`Error fetching data. ${data.Error || ''}`);
+          }
         }
       }
     }
@@ -88,7 +92,7 @@ function ObjectField ({ sdk }) {
       } else {
         sdk.field.setInvalid(true);
         sdk.field.removeValue();
-        sdk.notifier.error(val.Error);
+        
       }
     } else {
       sdk.field.setInvalid(true)
@@ -98,7 +102,7 @@ function ObjectField ({ sdk }) {
   sdk.field.onValueChanged(
     value => {
       const input = document.getElementById('omdbData');
-      console.log(input,isValidJson(value));
+      console.log('onValueChanged', input, value, isValidJson(value));
       if (input && isValidJson(value)) {
         input.value = JSON.stringify(value);
         console.log(input.value, 'input value');
@@ -121,7 +125,7 @@ async function getMovie(apiKey, imdbId) {
   if (apiKey && imdbId) {
     try {
       const response = await fetch(`https://www.omdbapi.com/?apikey=${apiKey}&i=${imdbId}`);
-      const data = await response.text();
+      const data = await response.json();
       return data;
     } catch (error) {
       return error;
