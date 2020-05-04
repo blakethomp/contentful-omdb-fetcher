@@ -62,19 +62,12 @@ function ObjectField ({ sdk }) {
   useEffect(() => {
     async function fetchMovie() {      
       const apiKey = sdk.parameters.installation.omdbApiKey || null;
-      const imdbId = sdk.fields['imdb'].getValue();
+      const imdbId = sdk.entry.fields['imdb'].getValue();
       const data = await getMovie(apiKey, imdbId);
       sdk.field.setValue(data);
     }
     fetchMovie();
   }, [sdk]);
-  
-  let data = sdk.field.getValue();
-  console.log(data);
-  console.log(sdk.entry.fields['imdb']);
-  if (!data || Object.keys(data).length === 0) {
-    getMovie('tt8368406', sdk)
-  }
   
   const validateAndSave = debounce(function(str) {
     console.log(str, 'str');
@@ -87,8 +80,9 @@ function ObjectField ({ sdk }) {
         sdk.field.setInvalid(false);
         sdk.field.setValue(val);
       } else {
-        sdk.field.setInvalid(false);
-        sdk.field.setValue(val);
+        sdk.field.setInvalid(true);
+        sdk.field.removeValue();
+        sdk.notifier.error(val.Error);
       }
     } else {
       sdk.field.setInvalid(true)
@@ -97,7 +91,9 @@ function ObjectField ({ sdk }) {
   
   return (
     <Textarea
-      value={JSON.stringify(data)}
+      name="omdbData"
+      id="omdbData"
+      value={JSON.stringify(sdk.field.getValue())}
       readOnly={false}
       onChange={e => {validateAndSave(e.target.value)}}
     />
@@ -107,9 +103,9 @@ function ObjectField ({ sdk }) {
 async function getMovie(apiKey, imdbId) {
   if (apiKey && imdbId) {
     try {
-      const response = await fetch(`https://www.omdbapi.com?apikey=${apiKey}&i=${imdbId}`);
+      const response = await fetch(`https://www.omdbapif.com?apikey=${apiKey}&i=${imdbId}`);
       console.log(response.body);
-      const data = await response.json();
+      const data = await response.text();
       console.log(data, 'data')
       return data;
     } catch (error) {
