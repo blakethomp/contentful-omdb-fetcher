@@ -97,7 +97,11 @@ function ObjectField ({ sdk }) {
   sdk.field.onValueChanged(
     value => {
       const input = document.getElementById('omdbData');
-      input.value = value || '';
+      console.log(input,isValidJson(value));
+      if (input && isValidJson(value)) {
+        input.value = JSON.stringify(value);
+        console.log(input.value);
+      }
     }
   )
   
@@ -107,7 +111,6 @@ function ObjectField ({ sdk }) {
       id="omdbData"
       value={JSON.stringify(sdk.field.getValue())}
       readOnly={false}
-      onChange={e => {validateAndSave(e.target.value)}}
     />
   )
 }
