@@ -76,6 +76,7 @@ function ObjectField ({ sdk }) {
   
   const validateAndSave = debounce(function(str) {
     console.log(str, 'str');
+    console.log(isValidJson(str), 'valid');
     if (str === '') {
       sdk.field.setInvalid(false);
       sdk.field.removeValue();
