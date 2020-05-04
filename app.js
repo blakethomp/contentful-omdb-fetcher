@@ -62,9 +62,14 @@ function ObjectField ({ sdk }) {
   useEffect(() => {
     async function fetchMovie() {      
       const apiKey = sdk.parameters.installation.omdbApiKey || null;
-      const imdbId = sdk.entry.fields['imdb'].getValue();
-      const data = await getMovie(apiKey, imdbId);
-      sdk.field.setValue(data);
+      const imdbUrl = sdk.entry.fields['imdb'].getValue();
+      if (imdbUrl) {
+        const [url, imdbId] = imdbUrl.match(/imdb\.com\/title\/(tt[^/]*)/);
+        if (imdbId) {
+          const data = await getMovie(apiKey, imdbId);
+          validateAndSave(data);
+        }
+      }
     }
     fetchMovie();
   }, [sdk]);
@@ -103,13 +108,10 @@ function ObjectField ({ sdk }) {
 async function getMovie(apiKey, imdbId) {
   if (apiKey && imdbId) {
     try {
-      const response = await fetch(`https://www.omdbapif.com?apikey=${apiKey}&i=${imdbId}`);
-      console.log(response.body);
+      const response = await fetch(`https://www.omdbapi.com/?apikey=${apiKey}&i=${imdbId}`);
       const data = await response.text();
-      console.log(data, 'data')
       return data;
     } catch (error) {
-      console.log(error.response.body);
       return error;
     }
   }
