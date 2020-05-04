@@ -62,18 +62,9 @@ function ObjectField ({ sdk }) {
   useEffect(() => {
     async function fetchMovie() {      
       const apiKey = sdk.parameters.installation.omdbApiKey || null;
-      
-      if (apiKey) {
-        try {
-          const response = await fetch(`https://www.omdbapi.com?apikey=${apiKey}&i=${imdbId}`);
-          console.log(response.body);
-          const data = await response.json();
-          console.log(data, 'data')
-          sdk.field.setValue(data);
-        } catch (error) {
-          console.log(error.response.body);
-        }
-      }
+      const imdbId = sdk.fields['imdb'].getValue();
+      const data = await getMovie(apiKey, imdbId);
+      sdk.field.setValue(data);
     }
     fetchMovie();
   }, [sdk]);
@@ -92,8 +83,13 @@ function ObjectField ({ sdk }) {
       sdk.field.removeValue();
     } else if (isValidJson(str)) {
       const val = JSON.parse(str);
-      sdk.field.setInvalid(false);
-      sdk.field.setValue(val);
+      if (val.Response === 'True') {
+        sdk.field.setInvalid(false);
+        sdk.field.setValue(val);
+      } else {
+        sdk.field.setInvalid(false);
+        sdk.field.setValue(val);
+      }
     } else {
       sdk.field.setInvalid(true)
     }
@@ -108,17 +104,17 @@ function ObjectField ({ sdk }) {
   )
 }
 
-async function getMovie(imdbId, sdk) {
-  const apiKey = sdk.parameters.installation.omdbApiKey || null;
-  if (apiKey) {
+async function getMovie(apiKey, imdbId) {
+  if (apiKey && imdbId) {
     try {
       const response = await fetch(`https://www.omdbapi.com?apikey=${apiKey}&i=${imdbId}`);
       console.log(response.body);
       const data = await response.json();
       console.log(data, 'data')
-      sdk.field.setValue(data);
+      return data;
     } catch (error) {
       console.log(error.response.body);
+      return error;
     }
   }
 }
