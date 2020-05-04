@@ -59,13 +59,14 @@ class Config extends Component {
 function ObjectField ({ sdk }) {
   const [buttonLoadingValue, buttonSetLoading] = useState(false);
 console.log('objectfield');
+  
   useEffect(() => {
     const apiKey = sdk.parameters.installation.omdbApiKey || null;
     const imdbUrl = sdk.entry.fields['imdb'].getValue();
     const fieldData = sdk.field.getValue();
     console.log(sdk.field);
     if (!fieldData && imdbUrl) {
-      fetchMovie(apiKey, imdbValue);
+      updateOmdbField(apiKey, imdbUrl);
     }
   }, [sdk]);
   
@@ -85,17 +86,16 @@ console.log('objectfield');
   }, 150);
   
   async function updateOmdbField(apiKey, imdbValue) {      
-      const input = document.getElementById('omdbData');
-      const [url, imdbId] = imdbUrl.match(/imdb\.com\/title\/(tt[^/]*)/);
-      if (imdbId) {
-        const data = await getMovie(apiKey, imdbId);
-        if (typeof data === 'object' && data.Response.toLowerCase() === 'true') {
-          validateAndSave(data);
-          input.value = JSON.stringify(data);
-          console.log(input.value);
-        } else {
-          sdk.notifier.error(`Error fetching data. ${data.Error || ''}`);
-        }
+    const input = document.getElementById('omdbData');
+    const [url, imdbId] = imdbValue.match(/imdb\.com\/title\/(tt[^/]*)/);
+    if (imdbId) {
+      const data = await getMovie(apiKey, imdbId);
+      if (typeof data === 'object' && data.Response.toLowerCase() === 'true') {
+        validateAndSave(data);
+        input.value = JSON.stringify(data);
+        console.log(input.value, "input value");
+      } else {
+        sdk.notifier.error(`Error fetching data. ${data.Error || ''}`);
       }
     }
   }
@@ -112,8 +112,10 @@ console.log('objectfield');
       <Button
         buttonType="primary"
         onClick={async () => {
+          const apiKey = sdk.parameters.installation.omdbApiKey || null;
+          const imdbUrl = sdk.entry.fields['imdb'].getValue();
           buttonSetLoading(true);
-          await fetchMovie(sdk, force);
+          await updateOmdbField(apiKey, imdbUrl);
           console.log(buttonSetLoading(false), 'button');
         }}
         loading={buttonLoadingValue}
