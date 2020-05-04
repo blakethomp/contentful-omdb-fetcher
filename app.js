@@ -63,7 +63,8 @@ function ObjectField ({ sdk }) {
     async function fetchMovie() {      
       const apiKey = sdk.parameters.installation.omdbApiKey || null;
       const imdbUrl = sdk.entry.fields['imdb'].getValue();
-      if (imdbUrl) {
+      const fieldData = sdk.field.getValue();
+      if (!fieldData && imdbUrl) {
         const [url, imdbId] = imdbUrl.match(/imdb\.com\/title\/(tt[^/]*)/);
         if (imdbId) {
           const data = await getMovie(apiKey, imdbId);
@@ -78,22 +79,16 @@ function ObjectField ({ sdk }) {
     fetchMovie();
   }, [sdk]);
   
-  const validateAndSave = debounce(function(str) {
-    console.log(str, 'str');
-    console.log(isValidJson(str), 'valid');
-    if (str === '') {
+  const validateAndSave = debounce(function(data) {
+    console.log(data, 'validateAndSave data');
+    console.log(isValidJson(data), 'validateAndSave valid');
+    if (data === '') {
       sdk.field.setInvalid(false);
       sdk.field.removeValue();
-    } else if (isValidJson(str)) {
-      const val = JSON.parse(str);
-      if (val.Response === 'True') {
-        sdk.field.setInvalid(false);
-        sdk.field.setValue(val);
-      } else {
-        sdk.field.setInvalid(true);
-        sdk.field.removeValue();
-        
-      }
+    } else if (isValidJson(data)) {
+      const val = typeof data === 'string' ? JSON.parse(data) : data;
+      sdk.field.setInvalid(false);
+      sdk.field.setValue(val);
     } else {
       sdk.field.setInvalid(true)
     }
