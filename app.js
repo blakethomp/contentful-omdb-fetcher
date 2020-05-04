@@ -62,6 +62,7 @@ function ObjectField ({ sdk }) {
   useEffect(() => {
     async function fetchMovie() {      
       const apiKey = sdk.parameters.installation.omdbApiKey || null;
+      
       if (apiKey) {
         try {
           const response = await fetch(`https://www.omdbapi.com?apikey=${apiKey}&i=${imdbId}`);
