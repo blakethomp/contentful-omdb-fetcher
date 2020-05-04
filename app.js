@@ -57,7 +57,7 @@ class Config extends Component {
 }
 
 function ObjectField ({ sdk }) {
-  const [buttonValue, buttonSetLoading] = useState(null);
+  const [buttonLoadingValue, buttonSetLoading] = useState(false);
 
   useEffect(() => {
     fetchMovie(sdk);
@@ -109,12 +109,15 @@ function ObjectField ({ sdk }) {
       />
       <Button
         buttonType="primary"
-        onClick={() => {
-          this.loading = true;
-          fetchMovie();
+        onClick={async () => {
+          buttonSetLoading(true);
+          await fetchMovie(sdk);
+          console.log(buttonSetLoading(false), 'button');
         }}
-        text="Fetch Movie Data"
-      />
+        loading={buttonLoadingValue}
+      >
+        Fetch Movie
+      </Button>
     </>
   )
 }
