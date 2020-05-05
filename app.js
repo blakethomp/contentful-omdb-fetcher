@@ -58,6 +58,7 @@ class Config extends Component {
 
 function ObjectField ({ sdk }) {
   const [buttonLoadingValue, buttonSetLoading] = useState(false);
+  const [inputState, inputSetState] = useState(false);
   const apiKey = sdk.parameters.installation.omdbApiKey || null;
   const imdbUrl = sdk.entry.fields['imdb'].getValue();
   const fieldData = sdk.field.getValue();
@@ -76,10 +77,8 @@ function ObjectField ({ sdk }) {
       sdk.field.removeValue();
     } else if (isValidJson(data)) {
       const val = typeof data === 'string' ? JSON.parse(data) : data;
-      const input = document.getElementById('omdbData');
       sdk.field.setInvalid(false);
       sdk.field.setValue(val);
-      input.value = JSON.stringify(data);
     } else {
       sdk.field.setInvalid(true)
     }
@@ -97,6 +96,16 @@ function ObjectField ({ sdk }) {
     }
   }
   
+  sdk.field.onValueChanged(value => {
+    const input = document.getElementById('omdbData');
+    if (inputState) {
+      if (isValidJson(value)) {
+        input.value = typeof value === 'object' ? JSON.stringify(value) : value;
+      }
+      inputSetState(false);
+    }
+  });
+  
   return (
     <>
       <Textarea
@@ -112,6 +121,7 @@ function ObjectField ({ sdk }) {
           const apiKey = sdk.parameters.installation.omdbApiKey || null;
           const imdbUrl = sdk.entry.fields['imdb'].getValue();
           buttonSetLoading(true);
+          inputSetState(true);
           await updateOmdbField(apiKey, imdbUrl);
           buttonSetLoading(false);
         }}
