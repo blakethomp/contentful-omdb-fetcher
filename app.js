@@ -85,9 +85,9 @@ function ObjectField ({ sdk }) {
   }, 150);
   
   async function updateOmdbField(apiKey, imdbValue) {      
-    const [url, imdbId] = imdbValue.match(/imdb\.com\/title\/(tt[^/]*)/);
-    if (imdbId) {
-      const data = await getMovie(apiKey, imdbId);
+    const matches = imdbValue.match(/imdb\.com\/title\/(tt[^/]*)/);
+    if (matches) {
+      const data = await getMovie(apiKey, matches[1]);
       if (typeof data === 'object' && data.Response.toLowerCase() === 'true') {
         validateAndSave(data);
       } else {
@@ -106,13 +106,19 @@ function ObjectField ({ sdk }) {
     }
   });
   
+  sdk.entry.fields['imdb'].onValueChanged(value => {
+    if (value) {
+      updateOmdbField(apiKey, value);
+    }
+  });
+  
   return (
     <>
       <Textarea
         name="omdbData"
         id="omdbData"
         value={JSON.stringify(fieldData)}
-        readOnly={false}
+        readOnly={true}
         onChange={e => validateAndSave(e.target.value)}
       />
       <Button
