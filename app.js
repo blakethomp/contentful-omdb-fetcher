@@ -58,19 +58,18 @@ class Config extends Component {
 
 function ObjectField ({ sdk }) {
   const [buttonLoadingValue, buttonSetLoading] = useState(false);
-console.log('objectfield');
+  const apiKey = sdk.parameters.installation.omdbApiKey || null;
+  const imdbUrl = sdk.entry.fields['imdb'].getValue();
+  const fieldData = sdk.field.getValue();
   
   useEffect(() => {
-    const apiKey = sdk.parameters.installation.omdbApiKey || null;
-    const imdbUrl = sdk.entry.fields['imdb'].getValue();
-    const fieldData = sdk.field.getValue();
-    console.log(sdk.field);
+    
     if (!fieldData && imdbUrl) {
       updateOmdbField(apiKey, imdbUrl);
     }
-  }, [sdk]);
+  }, [fieldData, apiKey, imdbUrl]);
   
-  const validateAndSave = debounce(function(data) {
+  const validateAndSave = debounce((data) => {
     console.log(data, 'validateAndSave data');
     console.log(isValidJson(data), 'validateAndSave valid');
     if (data === '') {
@@ -78,22 +77,21 @@ console.log('objectfield');
       sdk.field.removeValue();
     } else if (isValidJson(data)) {
       const val = typeof data === 'string' ? JSON.parse(data) : data;
+      const input = document.getElementById('omdbData');
       sdk.field.setInvalid(false);
       sdk.field.setValue(val);
+      input.value = JSON.stringify(data);
     } else {
       sdk.field.setInvalid(true)
     }
   }, 150);
   
   async function updateOmdbField(apiKey, imdbValue) {      
-    const input = document.getElementById('omdbData');
     const [url, imdbId] = imdbValue.match(/imdb\.com\/title\/(tt[^/]*)/);
     if (imdbId) {
       const data = await getMovie(apiKey, imdbId);
       if (typeof data === 'object' && data.Response.toLowerCase() === 'true') {
         validateAndSave(data);
-        input.value = JSON.stringify(data);
-        console.log(input.value, "input value");
       } else {
         sdk.notifier.error(`Error fetching data. ${data.Error || ''}`);
       }
