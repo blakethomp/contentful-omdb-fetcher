@@ -63,7 +63,6 @@ function ObjectField ({ sdk }) {
   const fieldData = sdk.field.getValue();
   
   useEffect(() => {
-    
     if (!fieldData && imdbUrl) {
       updateOmdbField(apiKey, imdbUrl);
     }
@@ -103,7 +102,7 @@ function ObjectField ({ sdk }) {
       <Textarea
         name="omdbData"
         id="omdbData"
-        value={JSON.stringify(sdk.field.getValue())}
+        value={JSON.stringify(fieldData)}
         readOnly={false}
         onChange={e => validateAndSave(e.target.value)}
       />
@@ -114,7 +113,7 @@ function ObjectField ({ sdk }) {
           const imdbUrl = sdk.entry.fields['imdb'].getValue();
           buttonSetLoading(true);
           await updateOmdbField(apiKey, imdbUrl);
-          console.log(buttonSetLoading(false), 'button');
+          buttonSetLoading(false);
         }}
         loading={buttonLoadingValue}
       >
