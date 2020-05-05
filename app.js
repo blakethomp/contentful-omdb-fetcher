@@ -125,6 +125,7 @@ function ObjectField ({ sdk }) {
           await updateOmdbField(apiKey, imdbUrl);
           buttonSetLoading(false);
         }}
+        disabled={buttonLoadingValue}
         loading={buttonLoadingValue}
       >
         Fetch Movie
