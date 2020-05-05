@@ -65,6 +65,7 @@ function ObjectField ({ sdk }) {
   
   useEffect(() => {
     if (!fieldData && imdbUrl) {
+      inputSetState(true);
       updateOmdbField(apiKey, imdbUrl);
     }
   }, [fieldData, apiKey, imdbUrl]);
