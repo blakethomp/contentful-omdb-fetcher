@@ -72,7 +72,6 @@ function ObjectField ({ sdk }) {
   
   useEffect(() => {
     const fieldValueChanged = sdk.field.onValueChanged(value => {
-      console.log('field ValueChanged');
       const input = document.getElementById('omdbData');
       if (input) {
         if (typeof value === 'undefined') {
@@ -95,7 +94,7 @@ function ObjectField ({ sdk }) {
       fieldValueChanged();
       imdbValueChanged();
     }
-  }, [sdk])
+  }, [fieldData])
   
   const validateAndSave = debounce((data) => {
     if (data === '') {
