@@ -98,17 +98,19 @@ function ObjectField ({ sdk }) {
   
   sdk.field.onValueChanged(value => {
     const input = document.getElementById('omdbData');
-    if (inputState) {
-      if (isValidJson(value)) {
-        input.value = typeof value === 'object' ? JSON.stringify(value) : value;
-      }
+    console.log(value);
+    if (input && inputState) {
+      console.log('fewakfeak');
+      input.value = typeof value === 'object' ? JSON.stringify(value) : value;
       inputSetState(false);
     }
+    
   });
   
   sdk.entry.fields['imdb'].onValueChanged(value => {
     console.log('imdb', value);
     if (value) {
+      console.log('imdb truthy', value);
       updateOmdbField(apiKey, value);
     }
   });
