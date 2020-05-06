@@ -71,8 +71,6 @@ function ObjectField ({ sdk }) {
   }, [fieldData, apiKey, imdbUrl]);
   
   const validateAndSave = debounce((data) => {
-    console.log(data, 'validateAndSave data');
-    console.log(isValidJson(data), 'validateAndSave valid');
     if (data === '') {
       sdk.field.setInvalid(false);
       sdk.field.removeValue();
@@ -87,6 +85,7 @@ function ObjectField ({ sdk }) {
   
   async function updateOmdbField(apiKey, imdbValue) {      
     const matches = imdbValue.match(/imdb\.com\/title\/(tt[^/]*)/);
+    console.log(apiKey, imdbValue, matches);
     if (matches) {
       const data = await getMovie(apiKey, matches[1]);
       if (typeof data === 'object' && data.Response.toLowerCase() === 'true') {
@@ -108,6 +107,7 @@ function ObjectField ({ sdk }) {
   });
   
   sdk.entry.fields['imdb'].onValueChanged(value => {
+    console.log('imdb', value);
     if (value) {
       updateOmdbField(apiKey, value);
     }
@@ -136,6 +136,15 @@ function ObjectField ({ sdk }) {
         loading={buttonLoadingValue}
       >
         Fetch Movie
+      </Button>
+      <Button
+        buttonType="negative"
+        onClick={() => {
+          inputSetState(true);
+          validateAndSave('');
+        }}
+      >
+        Clear Field
       </Button>
     </>
   )
