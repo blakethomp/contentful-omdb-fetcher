@@ -11,6 +11,13 @@ init(sdk => {
 
   render(<Component sdk={sdk} />, document.getElementById('root'));
   sdk.window.startAutoResizer();
+  
+  const input = document.getElementById('omdbData');
+  if (input) {
+    input.addEventListener('change', () => {
+      
+    });
+  }    
 });
 
 class Config extends Component {
