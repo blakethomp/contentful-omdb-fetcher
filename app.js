@@ -70,6 +70,7 @@ function ObjectField ({ sdk }) {
   
   useEffect(() => {
     const fieldValueChanged = sdk.field.onValueChanged(value => {
+      console.log('fieldValueChanged', value);
       const input = document.getElementById('omdbData');
       if (input) {
         if (typeof value === 'undefined') {
@@ -95,7 +96,7 @@ function ObjectField ({ sdk }) {
   }, [imdbUrl]);
   
   const validateAndSave = debounce((data) => {
-    console.log('validateAndSave');
+    console.log('validateAndSave', data);
     if (data === '') {
       sdk.field.setInvalid(false);
       sdk.field.removeValue();
