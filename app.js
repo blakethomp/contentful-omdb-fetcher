@@ -10,17 +10,7 @@ init(sdk => {
   const Component = sdk.location.is(locations.LOCATION_APP_CONFIG) ? Config : ObjectField;
 
   render(<Component sdk={sdk} />, document.getElementById('root'));
-  sdk.window.startAutoResizer();
-  
-  const input = document.getElementById('omdbData');
-  console.log(input);
-  if (input) {
-      console.log('change change change');
-    
-    input.addEventListener('input', () => {
-      console.log('change change change');
-    });
-  }    
+  sdk.window.startAutoResizer(); 
 });
 
 class Config extends Component {
@@ -67,7 +57,6 @@ class Config extends Component {
 }
 
 function ObjectField ({ sdk }) {
-  console.log('object field');
   const [buttonLoadingValue, buttonSetLoading] = useState(false);
   const apiKey = sdk.parameters.installation.omdbApiKey || null;
   const imdbUrl = sdk.entry.fields['imdb'].getValue();
@@ -81,7 +70,7 @@ function ObjectField ({ sdk }) {
   
   useEffect(() => {
     const fieldValueChanged = sdk.field.onValueChanged(value => {
-      console.log('what');
+      // If the value changed from another source, update the field value.
       const input = document.getElementById('omdbData');
       if (input) {
         if (typeof value === 'undefined') {
