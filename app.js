@@ -64,15 +64,12 @@ function ObjectField ({ sdk }) {
   
   useEffect(() => {
     if (!fieldData && imdbUrl) {
-      console.log('useEffect updateOmdbField', fieldData);
       updateOmdbField(imdbUrl, apiKey);
     }    
   }, [imdbUrl]);
   
   useEffect(() => {
-    console.log('useEffect fieldValueChanged');
     const fieldValueChanged = sdk.field.onValueChanged(value => {
-      console.log('onValueChanged', value, sdk.field.getValue());
       const input = document.getElementById('omdbData');
       if (input) {
         if (typeof value === 'undefined') {
@@ -84,22 +81,18 @@ function ObjectField ({ sdk }) {
     });
 
     const imdbValueChanged = sdk.entry.fields['imdb'].onValueChanged(value => {
-      console.log('imdb', value, imdbUrl);
       if (value && value !== imdbUrl && !fieldData) {
-        console.log('imdb truthy', value);
         updateOmdbField(value, apiKey);
       }
     });
     
     return () => {
-      console.log('UNMOUNT useEffect fieldValueChanged');
       fieldValueChanged();
       imdbValueChanged();
     }
   }, [imdbUrl]);
   
   const validateAndSave = debounce((data) => {
-    console.log('validateAndSave', data);
     if (data === '') {
       sdk.field.setInvalid(false);
       sdk.field.removeValue();
@@ -117,7 +110,6 @@ function ObjectField ({ sdk }) {
       return;
     }
     const matches = imdbValue.match(/imdb\.com\/title\/(tt[^/]*)/);
-    console.log(apiKey, imdbValue, matches);
     if (matches) {
       const data = await getMovie(apiKey, matches[1]);
       if (typeof data === 'object' && data.Response.toLowerCase() === 'true') {
@@ -127,8 +119,6 @@ function ObjectField ({ sdk }) {
       }
     }
   }
-  
-  console.log('ObjectField');  
   
   return (
     <>
@@ -146,10 +136,9 @@ function ObjectField ({ sdk }) {
           const imdbUrl = sdk.entry.fields['imdb'].getValue();
           buttonSetLoading(true);
           await updateOmdbField(imdbUrl, apiKey);
-          console.log('await');
           buttonSetLoading(false);
         }}
-        disabled={buttonLoadingValue || !imdbUrl}
+        disabled={buttonLoadingValue}
         loading={buttonLoadingValue}
       >
         Fetch Movie
