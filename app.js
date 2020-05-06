@@ -58,17 +58,15 @@ class Config extends Component {
 
 function ObjectField ({ sdk }) {
   const [buttonLoadingValue, buttonSetLoading] = useState(false);
-  const [inputState, inputSetState] = useState(false);
   const apiKey = sdk.parameters.installation.omdbApiKey || null;
   const imdbUrl = sdk.entry.fields['imdb'].getValue();
   const fieldData = sdk.field.getValue();
   
   useEffect(() => {
     if (!fieldData && imdbUrl) {
-      inputSetState(true);
       updateOmdbField(apiKey, imdbUrl);
     }    
-  }, [fieldData, apiKey, imdbUrl]);
+  }, [imdbUrl]);
   
   useEffect(() => {
     const fieldValueChanged = sdk.field.onValueChanged(value => {
@@ -83,8 +81,8 @@ function ObjectField ({ sdk }) {
     });
 
     const imdbValueChanged = sdk.entry.fields['imdb'].onValueChanged(value => {
-      console.log('imdb', value);
-      if (value) {
+      console.log('imdb', value, imdbUrl);
+      if (value && value !== imdbUrl) {
         console.log('imdb truthy', value);
         updateOmdbField(apiKey, value);
       }
@@ -94,9 +92,10 @@ function ObjectField ({ sdk }) {
       fieldValueChanged();
       imdbValueChanged();
     }
-  }, [fieldData])
+  }, [imdbUrl]);
   
   const validateAndSave = debounce((data) => {
+    console.log('validateAndSave');
     if (data === '') {
       sdk.field.setInvalid(false);
       sdk.field.removeValue();
@@ -139,7 +138,6 @@ function ObjectField ({ sdk }) {
           const apiKey = sdk.parameters.installation.omdbApiKey || null;
           const imdbUrl = sdk.entry.fields['imdb'].getValue();
           buttonSetLoading(true);
-          inputSetState(true);
           await updateOmdbField(apiKey, imdbUrl);
           buttonSetLoading(false);
         }}
@@ -151,7 +149,6 @@ function ObjectField ({ sdk }) {
       <Button
         buttonType="negative"
         onClick={() => {
-          inputSetState(true);
           validateAndSave('');
         }}
       >
