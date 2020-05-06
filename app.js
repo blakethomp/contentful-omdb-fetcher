@@ -64,11 +64,13 @@ function ObjectField ({ sdk }) {
   
   useEffect(() => {
     if (!fieldData && imdbUrl) {
+      console.log('useEffect updateOmdbField', fieldData);
       updateOmdbField(imdbUrl, apiKey);
     }    
   }, [imdbUrl]);
   
   useEffect(() => {
+    console.log('useEffect fieldValueChanged');
     const fieldValueChanged = sdk.field.onValueChanged(value => {
       console.log('fieldValueChanged', value);
       const input = document.getElementById('omdbData');
@@ -83,13 +85,14 @@ function ObjectField ({ sdk }) {
 
     const imdbValueChanged = sdk.entry.fields['imdb'].onValueChanged(value => {
       console.log('imdb', value, imdbUrl);
-      if (value && value !== imdbUrl) {
+      if (value && value !== imdbUrl && !fieldData) {
         console.log('imdb truthy', value);
         updateOmdbField(value, apiKey);
       }
     });
     
     return () => {
+      console.log('UNMOUNT useEffect fieldValueChanged');
       fieldValueChanged();
       imdbValueChanged();
     }
