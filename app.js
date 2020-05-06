@@ -13,9 +13,12 @@ init(sdk => {
   sdk.window.startAutoResizer();
   
   const input = document.getElementById('omdbData');
+  console.log(input);
   if (input) {
-    input.addEventListener('change', () => {
-      
+      console.log('change change change');
+    
+    input.addEventListener('input', () => {
+      console.log('change change change');
     });
   }    
 });
@@ -64,6 +67,7 @@ class Config extends Component {
 }
 
 function ObjectField ({ sdk }) {
+  console.log('object field');
   const [buttonLoadingValue, buttonSetLoading] = useState(false);
   const apiKey = sdk.parameters.installation.omdbApiKey || null;
   const imdbUrl = sdk.entry.fields['imdb'].getValue();
@@ -133,7 +137,7 @@ function ObjectField ({ sdk }) {
         name="omdbData"
         id="omdbData"
         value={JSON.stringify(fieldData)}
-        readOnly={true}
+        readOnly={false}
         onChange={e => validateAndSave(e.target.value)}
       />
       <Button
