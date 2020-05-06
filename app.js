@@ -68,6 +68,27 @@ function ObjectField ({ sdk }) {
       inputSetState(true);
       updateOmdbField(apiKey, imdbUrl);
     }
+    
+    console.log('createOnValueChanged');
+    sdk.entry.fields['imdb'].onValueChanged(value => {
+      console.log('imdb', value);
+      if (value) {
+        console.log('imdb truthy', value);
+        updateOmdbField(apiKey, value);
+      }
+    });
+    
+    sdk.field.onValueChanged(value => {
+      const input = document.getElementById('omdbData');
+      if (input && inputState) {
+        if (typeof value === 'undefined') {
+          input.value = '';
+        } else {
+          input.value = typeof value === 'object' ? JSON.stringify(value) : value;
+        }
+        inputSetState(false);
+      }    
+    });
   }, [fieldData, apiKey, imdbUrl]);
   
   const validateAndSave = debounce((data) => {
@@ -95,25 +116,6 @@ function ObjectField ({ sdk }) {
       }
     }
   }
-  
-  sdk.field.onValueChanged(value => {
-    const input = document.getElementById('omdbData');
-    console.log(value);
-    if (input && inputState) {
-      console.log('fewakfeak');
-      input.value = typeof value === 'object' ? JSON.stringify(value) : value;
-      inputSetState(false);
-    }
-    
-  });
-  
-  sdk.entry.fields['imdb'].onValueChanged(value => {
-    console.log('imdb', value);
-    if (value) {
-      console.log('imdb truthy', value);
-      updateOmdbField(apiKey, value);
-    }
-  });
   
   return (
     <>
