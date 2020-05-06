@@ -64,7 +64,7 @@ function ObjectField ({ sdk }) {
   
   useEffect(() => {
     if (!fieldData && imdbUrl) {
-      updateOmdbField(apiKey, imdbUrl);
+      updateOmdbField(imdbUrl, apiKey);
     }    
   }, [imdbUrl]);
   
@@ -84,7 +84,7 @@ function ObjectField ({ sdk }) {
       console.log('imdb', value, imdbUrl);
       if (value && value !== imdbUrl) {
         console.log('imdb truthy', value);
-        updateOmdbField(apiKey, value);
+        updateOmdbField(value, apiKey);
       }
     });
     
@@ -108,7 +108,10 @@ function ObjectField ({ sdk }) {
     }
   }, 150);
   
-  async function updateOmdbField(apiKey, imdbValue) {      
+  async function updateOmdbField(imdbValue, apiKey) {  
+    if (!imdbValue) {
+      return;
+    }
     const matches = imdbValue.match(/imdb\.com\/title\/(tt[^/]*)/);
     console.log(apiKey, imdbValue, matches);
     if (matches) {
@@ -138,10 +141,11 @@ function ObjectField ({ sdk }) {
           const apiKey = sdk.parameters.installation.omdbApiKey || null;
           const imdbUrl = sdk.entry.fields['imdb'].getValue();
           buttonSetLoading(true);
-          await updateOmdbField(apiKey, imdbUrl);
+          await updateOmdbField(imdbUrl, apiKey);
+          console.log('await');
           buttonSetLoading(false);
         }}
-        disabled={buttonLoadingValue}
+        disabled={buttonLoadingValue || !imdbUrl}
         loading={buttonLoadingValue}
       >
         Fetch Movie
