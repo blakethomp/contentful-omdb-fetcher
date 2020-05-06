@@ -72,7 +72,7 @@ function ObjectField ({ sdk }) {
   useEffect(() => {
     console.log('useEffect fieldValueChanged');
     const fieldValueChanged = sdk.field.onValueChanged(value => {
-      console.log('fieldValueChanged', value);
+      console.log('onValueChanged', value, sdk.field.getValue());
       const input = document.getElementById('omdbData');
       if (input) {
         if (typeof value === 'undefined') {
