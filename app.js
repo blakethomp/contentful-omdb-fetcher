@@ -66,7 +66,7 @@ function ObjectField ({ sdk }) {
   const [buttonLoadingValue, buttonSetLoading] = useState(false);
   const imdbField = sdk.entry.fields['imdb'];
   const omdbField = sdk.field;
-  const inputEl = useRef(null);
+  const inputEl = useRef(document.createElement("TEXTAREA"));
   console.log(inputEl, imdbField.getValue());
 
   useEffect(() => {
@@ -90,7 +90,9 @@ function ObjectField ({ sdk }) {
     const omdbValueChanged = omdbField.onValueChanged(value => {
       console.log('omdbValueChanged', inputEl);
       console.log(value);
-      // inputEl.current.focus();
+      inputEl.current.focus();
+      inputEl.current.value = 'barf';
+      console.log(inputEl);
     });
 
     return () => {
