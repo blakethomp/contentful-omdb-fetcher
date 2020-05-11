@@ -1,4 +1,5 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component, useState, useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import { render } from 'react-dom';
 
 import { init, locations } from 'contentful-ui-extensions-sdk';
@@ -10,7 +11,8 @@ init(sdk => {
   const Component = sdk.location.is(locations.LOCATION_APP_CONFIG) ? Config : ObjectField;
 
   render(<Component sdk={sdk} />, document.getElementById('root'));
-  sdk.window.startAutoResizer(); 
+
+  sdk.window.startAutoResizer();
 });
 
 class Config extends Component {
@@ -20,7 +22,7 @@ class Config extends Component {
     this.app = this.props.sdk.app;
     this.app.onConfigure(() => this.onConfigure());
   }
-  
+
   async componentDidMount () {
     const parameters = await this.app.getParameters();
     this.setState(
@@ -28,7 +30,7 @@ class Config extends Component {
       () => this.app.setReady()
     );
   }
-  
+
   render () {
     return (
       <Form id="app-config">
@@ -56,44 +58,32 @@ class Config extends Component {
   }
 }
 
+Config.propTypes = {
+  sdk: PropTypes.object
+};
+
 function ObjectField ({ sdk }) {
   const [buttonLoadingValue, buttonSetLoading] = useState(false);
-  const apiKey = sdk.parameters.installation.omdbApiKey || null;
-  const imdbUrl = sdk.entry.fields['imdb'].getValue();
-  const fieldData = sdk.field.getValue();
-  
-  useEffect(() => {
-    if (!fieldData && imdbUrl) {
-      updateOmdbField(imdbUrl, apiKey);
-    }    
-  }, [imdbUrl]);
-  
-  useEffect(() => {
-    const fieldValueChanged = sdk.field.onValueChanged(value => {
-      // If the value changed from another source, update the field value.
-      const input = document.getElementById('omdbData');
-      if (input) {
-        if (typeof value === 'undefined') {
-          input.value = '';
-        } else {
-          input.value = typeof value === 'object' ? JSON.stringify(value) : value;
-        }
-      }    
-    });
+  const imdbField = sdk.entry.fields['imdb'];
+  const omdbValue = sdk.field.getValue();
 
-    const imdbValueChanged = sdk.entry.fields['imdb'].onValueChanged(value => {
-      if (value && value !== imdbUrl && !fieldData) {
-        updateOmdbField(value, apiKey);
+  useEffect(() => {
+    console.log('useEffect imdbField');
+    const imdbValueChanged = imdbField.onValueChanged(value => {
+      const imdbUrl = imdbField.getValue();
+      if (value && value !== imdbUrl) {
+        updateOmdbField(value);
       }
     });
-    
+
     return () => {
-      fieldValueChanged();
+      console.log('useEffect imdbField Return');
       imdbValueChanged();
     }
-  }, [imdbUrl]);
-  
+  }, [imdbField, updateOmdbField]);
+
   const validateAndSave = debounce((data) => {
+    console.log('validateAndSave', data);
     if (data === '') {
       sdk.field.setInvalid(false);
       sdk.field.removeValue();
@@ -105,11 +95,14 @@ function ObjectField ({ sdk }) {
       sdk.field.setInvalid(true)
     }
   }, 150);
-  
-  async function updateOmdbField(imdbValue, apiKey) {  
+
+  const updateOmdbField = useCallback(async (imdbValue) => {
+    console.log('updateOmdbField');
     if (!imdbValue) {
       return;
     }
+
+    const apiKey = sdk.parameters.installation.omdbApiKey || null;
     const matches = imdbValue.match(/imdb\.com\/title\/(tt[^/]*)/);
     if (matches) {
       const data = await getMovie(apiKey, matches[1]);
@@ -119,24 +112,23 @@ function ObjectField ({ sdk }) {
         sdk.notifier.error(`Error fetching data. ${data.Error || ''}`);
       }
     }
-  }
-  
+  }, [validateAndSave, sdk]);
+
   return (
     <>
       <Textarea
         name="omdbData"
         id="omdbData"
-        value={JSON.stringify(fieldData)}
+        value={JSON.stringify(omdbValue)}
         readOnly={false}
         onChange={e => validateAndSave(e.target.value)}
       />
       <Button
         buttonType="primary"
         onClick={async () => {
-          const apiKey = sdk.parameters.installation.omdbApiKey || null;
           const imdbUrl = sdk.entry.fields['imdb'].getValue();
           buttonSetLoading(true);
-          await updateOmdbField(imdbUrl, apiKey);
+          await updateOmdbField(imdbUrl);
           buttonSetLoading(false);
         }}
         disabled={buttonLoadingValue}
@@ -155,6 +147,11 @@ function ObjectField ({ sdk }) {
     </>
   )
 }
+
+ObjectField.propTypes = {
+  sdk: PropTypes.object
+};
+
 
 async function getMovie(apiKey, imdbId) {
   if (apiKey && imdbId) {
@@ -189,12 +186,12 @@ const isValidJson = str => {
   if (typeof str === 'object') {
      return true;
   }
-  
+
   try {
-     const parsed = JSON.parse(str)
+     JSON.parse(str)
   } catch (e) {
      return false;
   }
-  
+
   return true;
 };
