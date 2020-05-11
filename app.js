@@ -142,7 +142,7 @@ function ObjectField ({ sdk }) {
         value={JSON.stringify(omdbField.getValue())}
         readOnly={true}
         onChange={e => validateAndSave(e.target.value)}
-        textareaRef={e => {console.log(e)}}
+        textareaRef={e => console.log(e)}
       />
       <Button
         buttonType="primary"
