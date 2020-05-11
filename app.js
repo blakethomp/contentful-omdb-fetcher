@@ -139,9 +139,6 @@ function ObjectField ({ sdk }) {
         onChange={e => validateAndSave(e.target.value)}
         textareaRef={inputEl}
       />
-      <MyInput
-        forwardRef={inputEl}
-        />
       <Button
         buttonType="primary"
         onClick={async () => {
@@ -170,21 +167,6 @@ function ObjectField ({ sdk }) {
 ObjectField.propTypes = {
   sdk: PropTypes.object
 };
-
-
-function MyInput (props) {  // verifying `input` is referenced correctly after DOM updates
-  useLayoutEffect(() => {
-    console.log(props.forwardRef.current);
-  });
-  const { forwardRef } = props;
-
-  return (
-    <input
-      ref={forwardRef}
-      type="submit"
-      value="Submit"
-  />);
-}
 
 async function getMovie(apiKey, imdbId) {
   if (apiKey && imdbId) {
