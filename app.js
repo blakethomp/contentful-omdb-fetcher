@@ -65,12 +65,13 @@ Config.propTypes = {
 function ObjectField ({ sdk }) {
   const [buttonLoadingValue, buttonSetLoading] = useState(false);
   const imdbField = sdk.entry.fields['imdb'];
-  const omdbValue = sdk.field.getValue();
+  const omdbField = sdk.field;
 
   useEffect(() => {
     console.log('useEffect imdbField');
     const imdbValueChanged = imdbField.onValueChanged(value => {
       const imdbUrl = imdbField.getValue();
+      console.log(value, imdbUrl);
       if (value && value !== imdbUrl) {
         updateOmdbField(value);
       }
@@ -81,6 +82,19 @@ function ObjectField ({ sdk }) {
       imdbValueChanged();
     }
   }, [imdbField, updateOmdbField]);
+  
+  useEffect(() => {
+    console.log('useEffect omdbField');
+    const omdbValueChanged = omdbField.onValueChanged(value => {
+      const input = document.getElementById('omdbData');
+      input.value = typeof value === 'object' ? JSON.strigify(value) : value;
+    });
+
+    return () => {
+      console.log('useEffect omdbField Return');
+      omdbValueChanged();
+    }
+  }, [omdbField]);
 
   const validateAndSave = debounce((data) => {
     console.log('validateAndSave', data);
@@ -119,8 +133,8 @@ function ObjectField ({ sdk }) {
       <Textarea
         name="omdbData"
         id="omdbData"
-        value={JSON.stringify(omdbValue)}
-        readOnly={false}
+        value={JSON.stringify(omdbField.getValue())}
+        readOnly={true}
         onChange={e => validateAndSave(e.target.value)}
       />
       <Button
