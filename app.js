@@ -89,7 +89,8 @@ function ObjectField ({ sdk }) {
     console.log('useEffect omdbField');
     const omdbValueChanged = omdbField.onValueChanged(value => {
       console.log('omdbValueChanged', inputEl);
-      inputEl.current.value = typeof value === 'object' ? JSON.stringify(value) : value;
+      console.log(value);
+      // inputEl.current.focus();
     });
 
     return () => {
@@ -138,7 +139,7 @@ function ObjectField ({ sdk }) {
         value={JSON.stringify(omdbField.getValue())}
         readOnly={true}
         onChange={e => validateAndSave(e.target.value)}
-        ref={inputEl}
+        textareaRef={inputEl}
       />
       <Button
         buttonType="primary"
