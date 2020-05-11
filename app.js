@@ -66,8 +66,7 @@ function ObjectField ({ sdk }) {
   const [buttonLoadingValue, buttonSetLoading] = useState(false);
   const imdbField = sdk.entry.fields['imdb'];
   const omdbField = sdk.field;
-  const inputEl = useRef<HTMLTextAreaElement>(null);
-  console.log(inputEl, imdbField.getValue());
+  const inputEl = useRef();
 
   useEffect(() => {
     console.log('useEffect imdbField');
@@ -97,6 +96,10 @@ function ObjectField ({ sdk }) {
       omdbValueChanged();
     }
   }, [inputEl, omdbField]);
+  
+  useEffect(() => { 
+    console.log('inputEl', inputEl);
+  });
 
   const validateAndSave = debounce((data) => {
     console.log('validateAndSave', data);
@@ -138,7 +141,7 @@ function ObjectField ({ sdk }) {
         value={JSON.stringify(omdbField.getValue())}
         readOnly={true}
         onChange={e => validateAndSave(e.target.value)}
-        textareaRef={inputEl}
+        ref={inputEl}
       />
       <Button
         buttonType="primary"
