@@ -67,14 +67,14 @@ function ObjectField ({ sdk }) {
   const imdbField = sdk.entry.fields['imdb'];
   const omdbField = sdk.field;
   const inputEl = useRef(null);
-  console.log(inputEl);
+  console.log(inputEl, imdbField.getValue());
 
   useEffect(() => {
     console.log('useEffect imdbField');
     const imdbValueChanged = imdbField.onValueChanged(value => {
       const imdbUrl = imdbField.getValue();
       console.log(value, imdbUrl);
-      if (value && value !== imdbUrl) {
+      if (value) {
         updateOmdbField(value);
       }
     });
@@ -88,7 +88,8 @@ function ObjectField ({ sdk }) {
   useEffect(() => {
     console.log('useEffect omdbField');
     const omdbValueChanged = omdbField.onValueChanged(value => {
-      inputEl.current.value = typeof value === 'object' ? JSON.strigify(value) : value;
+      console.log('omdbValueChanged', inputEl);
+      inputEl.current.value = typeof value === 'object' ? JSON.stringify(value) : value;
     });
 
     return () => {
