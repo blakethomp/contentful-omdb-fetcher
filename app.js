@@ -66,7 +66,7 @@ function ObjectField ({ sdk }) {
   const [buttonLoadingValue, buttonSetLoading] = useState(false);
   const imdbField = sdk.entry.fields['imdb'];
   const omdbField = sdk.field;
-  const inputEl = useRef(new HTMLTextAreaElement());
+  const inputEl = useRef();
   console.log(inputEl, imdbField.getValue());
 
   useEffect(() => {
