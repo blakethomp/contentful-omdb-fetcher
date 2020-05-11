@@ -4,9 +4,9 @@ dependencies:
   '@babel/preset-env': 7.6.2
   '@babel/preset-react': 7.0.0
   '@babel/runtime': 7.5.4
-  '@contentful/forma-36-fcss': 0.0.31
-  '@contentful/forma-36-react-components': 3.15.9
-  '@contentful/forma-36-tokens': 0.4.5
+  '@contentful/forma-36-fcss': 0.0.35
+  '@contentful/forma-36-react-components': 3.37.2
+  '@contentful/forma-36-tokens': 0.5.2
   babel-loader: 8.0.5
   contentful-ui-extensions-sdk: 3.10.6
   css-loader: 3.2.0
@@ -756,12 +756,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Na84uwyImZZc3FKf4aUF1tysApzwf3p2yuFBIyBfbzT5glzKTdvYI4KVW4kcgjrzoGUjC7w3YyCHcJKaRxsr2Q==
-  /@babel/runtime/7.6.2:
-    dependencies:
-      regenerator-runtime: 0.13.3
-    dev: false
-    resolution:
-      integrity: sha512-EXxN64agfUqqIGeEjI5dL5z0Sw0ZwWo1mLTi4mQowCZ42O59b7DRpZAnTC6OqdF28wMBMFKNb/4uFGrVaigSpg==
   /@babel/template/7.6.0:
     dependencies:
       '@babel/code-frame': 7.5.5
@@ -792,19 +786,18 @@ packages:
     dev: false
     resolution:
       integrity: sha512-X7gdiuaCmA0uRjCmRtYJNAVCc/q+5xSgsfKJHqMN4iNLILX39677fJE1O40arPMh0TTtS9ItH67yre6c7k6t0g==
-  /@contentful/forma-36-fcss/0.0.31:
+  /@contentful/forma-36-fcss/0.0.35:
     dependencies:
-      '@contentful/forma-36-tokens': 0.4.5
+      '@contentful/forma-36-tokens': 0.5.2
     dev: false
     resolution:
-      integrity: sha512-SZSrrjk68L1EoJThWaR6O0LbKcOzCv+TwS/RUDPHNcrzphILLvSLwe666DGYHyyUSyvomIfMniVAnLpGQTt3nQ==
-  /@contentful/forma-36-react-components/3.15.9:
+      integrity: sha512-ER81LumiXEZF0y0XgpGTLTj1119wjgs3xIYyphYz0qvzQghzNH28XE/8qBMG5WeqdtThtZFVK6E7nDa1e/MSYw==
+  /@contentful/forma-36-react-components/3.37.2:
     dependencies:
-      '@babel/runtime': 7.6.2
+      '@babel/runtime': 7.5.4
       classnames: 2.2.6
-      prop-types: 15.7.2
-      react-animate-height: 2.0.15
-      react-copy-to-clipboard: 5.0.1
+      react-animate-height: 2.0.21
+      react-copy-to-clipboard: 5.0.2
       react-modal: 3.6.1
       react-transition-group: 2.9.0
       truncate: 2.1.0
@@ -813,11 +806,11 @@ packages:
       react: ^16.3.0
       react-dom: ^16.3.0
     resolution:
-      integrity: sha512-zQ0TqP/QeeeTYybF4EMdGZIjhSx5kr/2deQnCqT/QA9oncNgTumPQb56yYTsupTyeFDQ4vplcJbjfzxliQvYfA==
-  /@contentful/forma-36-tokens/0.4.5:
+      integrity: sha512-8V/PKJdjhLy0l+p9u+u6lGq8t8gl4u0WtOB1hs8Y1mhTzTxbCeZfxUZkPKcTn3pvJDgOmRaQ9QJjdzmADJ3PUQ==
+  /@contentful/forma-36-tokens/0.5.2:
     dev: false
     resolution:
-      integrity: sha512-wygRxC9r+Wr4FR4wEp1MVjt+Hx5n1lCux4EOXfva3Au1CXzjcl821ukR8mMaurYM7/3TMrv/olQorySNwGpllg==
+      integrity: sha512-YAhp7bJzlIvThO6ybZHCGCeVXf5ojRrVBVx7dCkoWK6SYtZJkr5trWymG6gAnNpO9pDiWvgIMKmFHx/hWDjiRA==
   /@types/color-name/1.1.1:
     dev: true
     resolution:
@@ -1609,12 +1602,12 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
-  /copy-to-clipboard/3.2.0:
+  /copy-to-clipboard/3.3.1:
     dependencies:
       toggle-selection: 1.0.6
     dev: false
     resolution:
-      integrity: sha512-eOZERzvCmxS8HWzugj4Uxl8OJxa7T2k1Gi0X5qavwydHIfuSHq2dTD09LOg/XyGq4Zpb5IsR/2OJ5lbOegz78w==
+      integrity: sha512-i13qo6kIHTTpCm8/Wup+0b1mVWETvu2kIMzKoK8FpkLkFxlt0znUAHcMzox+T8sPlqtZXq3CulEjQHsYiGFJUw==
   /core-js-compat/3.2.1:
     dependencies:
       browserslist: 4.7.0
@@ -1830,7 +1823,7 @@ packages:
       integrity: sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==
   /dom-helpers/3.4.0:
     dependencies:
-      '@babel/runtime': 7.6.2
+      '@babel/runtime': 7.5.4
     dev: false
     resolution:
       integrity: sha512-LnuPJ+dwqKDIyotW1VzmOZ5TONUN7CwkCR5hrgawTUbkBGYdeoNLZo6nNfGkCrjtE1nXXaj7iMMpDa8/d9WoIA==
@@ -4030,7 +4023,7 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha512-4Oz8DUIwdvoa5qMJelxipzi/iJIi40O5cGV1wNYp5hvZP8ZN0T+jiNkL0QepXs+EsQ9XJ8ipEDoiH70ySUJP3Q==
-  /react-animate-height/2.0.15:
+  /react-animate-height/2.0.21:
     dependencies:
       classnames: 2.2.6
       prop-types: 15.7.2
@@ -4039,16 +4032,16 @@ packages:
       react: '>=15.6.2'
       react-dom: '>=15.6.2'
     resolution:
-      integrity: sha512-YTyXGx833DyiRrjMfwRqXNkvIYEdBGCR3vAK56Hj/2yvZnLE0ySiVEu58pNuH0Pkn8uU9ZDZWCVNZEv7eAlPeQ==
-  /react-copy-to-clipboard/5.0.1:
+      integrity: sha512-CZHdjMD8qqp10tYtWmauWYASXxxv9vYeljxFGFtbcrbNXhsUv0w3IjxVK+0yCnyfk7769WfMZKHra4vRcbMnQg==
+  /react-copy-to-clipboard/5.0.2:
     dependencies:
-      copy-to-clipboard: 3.2.0
+      copy-to-clipboard: 3.3.1
       prop-types: 15.7.2
     dev: false
     peerDependencies:
       react: ^15.3.0 || ^16.0.0
     resolution:
-      integrity: sha512-ELKq31/E3zjFs5rDWNCfFL4NvNFQvGRoJdAKReD/rUPA+xxiLPQmZBZBvy2vgH7V0GE9isIQpT9WXbwIVErYdA==
+      integrity: sha512-/2t5mLMMPuN5GmdXo6TebFa8IoFxZ+KTDDqYhcDm0PhkgEzSxVvIX26G20s1EB02A4h2UZgwtfymZ3lGJm0OLg==
   /react-dom/16.10.1:
     dependencies:
       loose-envify: 1.4.0
@@ -5250,9 +5243,9 @@ specifiers:
   '@babel/preset-env': 7.6.2
   '@babel/preset-react': 7.0.0
   '@babel/runtime': 7.5.4
-  '@contentful/forma-36-fcss': 0.0.31
-  '@contentful/forma-36-react-components': 3.15.9
-  '@contentful/forma-36-tokens': 0.4.5
+  '@contentful/forma-36-fcss': 0.0.35
+  '@contentful/forma-36-react-components': ^3.37.2
+  '@contentful/forma-36-tokens': ^0.5.2
   babel-loader: 8.0.5
   contentful-ui-extensions-sdk: 3.10.6
   css-loader: 3.2.0
