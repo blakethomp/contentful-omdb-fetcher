@@ -62,51 +62,45 @@ Config.propTypes = {
   sdk: PropTypes.object
 };
 
-class ObjectField extends React.Component {
-  constructor (props) {
-    super(props);
-    this.state = { parameters: {} };
-    this.sdk = this.props.sdk.app;
-  }
-  
-  // const [buttonLoadingValue, buttonSetLoading] = useState(false);
-  // const imdbField = sdk.entry.fields['imdb'];
-  // const omdbField = sdk.field;
-  // const inputEl = useRef();
+function ObjectField ({ sdk }) {
+  const [buttonLoadingValue, buttonSetLoading] = useState(false);
+  const imdbField = sdk.entry.fields['imdb'];
+  const omdbField = sdk.field;
+  const inputEl = useRef();
   // const textareaRef = React.createRef<HTMLTextAreaElement>();
 
-//   useEffect(() => {
-//     console.log('useEffect imdbField');
-//     const imdbValueChanged = imdbField.onValueChanged(value => {
-//       const imdbUrl = imdbField.getValue();
-//       console.log(value, imdbUrl);
-//       if (value) {
-//         updateOmdbField(value);
-//       }
-//     });
+  useEffect(() => {
+    console.log('useEffect imdbField');
+    const imdbValueChanged = imdbField.onValueChanged(value => {
+      const imdbUrl = imdbField.getValue();
+      console.log(value, imdbUrl);
+      if (value) {
+        updateOmdbField(value);
+      }
+    });
 
-//     return () => {
-//       console.log('useEffect imdbField Return');
-//       imdbValueChanged();
-//     }
-//   }, [imdbField, updateOmdbField]);
+    return () => {
+      console.log('useEffect imdbField Return');
+      imdbValueChanged();
+    }
+  }, [imdbField, updateOmdbField]);
   
-//   useEffect(() => {
-//     console.log('useEffect omdbField');
-//     const omdbValueChanged = omdbField.onValueChanged(value => {
-//       console.log('omdbValueChanged', inputEl);
-//       console.log(value);
-//     });
+  useEffect(() => {
+    console.log('useEffect omdbField');
+    const omdbValueChanged = omdbField.onValueChanged(value => {
+      console.log('omdbValueChanged', inputEl);
+      console.log(value);
+    });
 
-//     return () => {
-//       console.log('useEffect omdbField Return');
-//       omdbValueChanged();
-//     }
-//   }, [inputEl, omdbField]);
+    return () => {
+      console.log('useEffect omdbField Return');
+      omdbValueChanged();
+    }
+  }, [inputEl, omdbField]);
   
-//   useEffect(() => { 
-//     console.log('inputEl', inputEl);
-//   });
+  useEffect(() => { 
+    console.log('inputEl', inputEl);
+  });
 
   const validateAndSave = debounce((data) => {
     console.log('validateAndSave', data);
@@ -148,9 +142,7 @@ class ObjectField extends React.Component {
         value={JSON.stringify(omdbField.getValue())}
         readOnly={true}
         onChange={e => validateAndSave(e.target.value)}
-        textareaRef={{
-          current: inputEl
-        }}
+        textareaRef={e => {console.log(e)}}
       />
       <Button
         buttonType="primary"
