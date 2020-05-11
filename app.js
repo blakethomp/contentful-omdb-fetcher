@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect, useCallback } from 'react';
+import React, { Component, useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { render } from 'react-dom';
 
@@ -66,6 +66,8 @@ function ObjectField ({ sdk }) {
   const [buttonLoadingValue, buttonSetLoading] = useState(false);
   const imdbField = sdk.entry.fields['imdb'];
   const omdbField = sdk.field;
+  const inputEl = useRef(null);
+  console.log(inputEl);
 
   useEffect(() => {
     console.log('useEffect imdbField');
@@ -86,15 +88,14 @@ function ObjectField ({ sdk }) {
   useEffect(() => {
     console.log('useEffect omdbField');
     const omdbValueChanged = omdbField.onValueChanged(value => {
-      const input = document.getElementById('omdbData');
-      input.value = typeof value === 'object' ? JSON.strigify(value) : value;
+      inputEl.current.value = typeof value === 'object' ? JSON.strigify(value) : value;
     });
 
     return () => {
       console.log('useEffect omdbField Return');
       omdbValueChanged();
     }
-  }, [omdbField]);
+  }, [inputEl, omdbField]);
 
   const validateAndSave = debounce((data) => {
     console.log('validateAndSave', data);
@@ -136,6 +137,7 @@ function ObjectField ({ sdk }) {
         value={JSON.stringify(omdbField.getValue())}
         readOnly={true}
         onChange={e => validateAndSave(e.target.value)}
+        ref={inputEl}
       />
       <Button
         buttonType="primary"
