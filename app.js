@@ -67,6 +67,7 @@ function ObjectField ({ sdk }) {
   const imdbField = sdk.entry.fields['imdb'];
   const omdbField = sdk.field;
   const inputEl = useRef();
+  const textareaRef = React.createRef(HTMLTextAreaElement);
 
   useEffect(() => {
     console.log('useEffect imdbField');
@@ -89,6 +90,7 @@ function ObjectField ({ sdk }) {
     const omdbValueChanged = omdbField.onValueChanged(value => {
       console.log('omdbValueChanged', inputEl);
       console.log(value);
+      console.log('textareaRef', textareaRef);
     });
 
     return () => {
@@ -141,7 +143,7 @@ function ObjectField ({ sdk }) {
         value={JSON.stringify(omdbField.getValue())}
         readOnly={true}
         onChange={e => validateAndSave(e.target.value)}
-        ref={inputEl}
+        textareaRef={textareaRef}
       />
       <Button
         buttonType="primary"
