@@ -65,45 +65,42 @@ Config.propTypes = {
 function ObjectField ({ sdk }) {
   const [buttonLoadingValue, buttonSetLoading] = useState(false);
   const imdbField = sdk.entry.fields['imdb'];
+  const imdbValue = sdk.entry.fields['imdb'].getValue();
   const omdbField = sdk.field;
   const inputEl = useRef();
-  // const textareaRef = React.createRef<HTMLTextAreaElement>();
 
   useEffect(() => {
-    console.log('useEffect imdbField');
     const imdbValueChanged = imdbField.onValueChanged(value => {
-      const imdbUrl = imdbField.getValue();
-      console.log(value, imdbUrl);
-      if (value) {
+      if (value && value !== imdbValue) {
         updateOmdbField(value);
       }
     });
 
     return () => {
-      console.log('useEffect imdbField Return');
       imdbValueChanged();
     }
-  }, [imdbField, updateOmdbField]);
-  
+  }, [imdbField, imdbValue, updateOmdbField]);
+
   useEffect(() => {
-    console.log('useEffect omdbField');
     const omdbValueChanged = omdbField.onValueChanged(value => {
-      console.log('omdbValueChanged', inputEl);
-      console.log(value);
+      let newValue;
+      if (typeof value === 'undefined') {
+        newValue = '';
+      } else {
+        newValue = typeof value === 'object' ? JSON.stringify(value) : value;
+      }
+
+      if (newValue !== inputEl.current.value) {
+        inputEl.current.value = newValue;
+      }
     });
 
     return () => {
-      console.log('useEffect omdbField Return');
       omdbValueChanged();
     }
   }, [inputEl, omdbField]);
-  
-  useEffect(() => { 
-    console.log('inputEl', inputEl);
-  });
 
   const validateAndSave = debounce((data) => {
-    console.log('validateAndSave', data);
     if (data === '') {
       sdk.field.setInvalid(false);
       sdk.field.removeValue();
@@ -117,11 +114,9 @@ function ObjectField ({ sdk }) {
   }, 150);
 
   const updateOmdbField = useCallback(async (imdbValue) => {
-    console.log('updateOmdbField');
     if (!imdbValue) {
       return;
     }
-
     const apiKey = sdk.parameters.installation.omdbApiKey || null;
     const matches = imdbValue.match(/imdb\.com\/title\/(tt[^/]*)/);
     if (matches) {
@@ -132,7 +127,7 @@ function ObjectField ({ sdk }) {
         sdk.notifier.error(`Error fetching data. ${data.Error || ''}`);
       }
     }
-  }, [validateAndSave, sdk]);
+  }, [validateAndSave, sdk.parameters.installation.omdbApiKey, sdk.notifier]);
 
   return (
     <>
@@ -142,7 +137,7 @@ function ObjectField ({ sdk }) {
         value={JSON.stringify(omdbField.getValue())}
         readOnly={true}
         onChange={e => validateAndSave(e.target.value)}
-        textareaRef={e => console.log(e)}
+        textareaRef={inputEl}
       />
       <Button
         buttonType="primary"
