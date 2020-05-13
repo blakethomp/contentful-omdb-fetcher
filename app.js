@@ -85,9 +85,7 @@ function ObjectField ({ sdk }) {
   }, [imdbFieldValue, updateOmdbField])
 
   useEffect(() => {
-    console.log('ombdValue Effect');
     const omdbValueChanged = omdbField.onValueChanged(value => {
-      console.log('omdbValueChanged', value);
       omdbSetState(value);
     });
 
@@ -97,7 +95,6 @@ function ObjectField ({ sdk }) {
   }, [omdbField]);
 
   const validateAndSave = debounce((data) => {
-    console.log('validateAndSave', data);
     omdbSetState(data);
     if (!data) {
       sdk.field.setInvalid(false);
