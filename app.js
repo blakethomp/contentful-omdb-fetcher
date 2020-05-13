@@ -75,10 +75,8 @@ function ObjectField ({ sdk }) {
       imdbSetState(value);
     });
 
-    return () => {
-      imdbValueChanged();
-    }
-  }, [imdbField]);
+    return imdbValueChanged;
+  });
   
   useEffect(() => {
     updateOmdbField(imdbFieldValue);
@@ -89,10 +87,8 @@ function ObjectField ({ sdk }) {
       omdbSetState(value);
     });
 
-    return () => {
-      omdbValueChanged();
-    }
-  }, [omdbField]);
+    return omdbValueChanged();
+  });
 
   const validateAndSave = debounce((data) => {
     omdbSetState(data);
