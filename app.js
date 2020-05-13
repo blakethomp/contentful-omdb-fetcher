@@ -132,7 +132,7 @@ function ObjectField ({ sdk }) {
       <Textarea
         name="omdbData"
         id="omdbData"
-        value={omdbValue ?? JSON.stringify(omdbValue)}
+        value={omdbValue ? JSON.stringify(omdbValue) : ''}
         readOnly={true}
         onChange={e => validateAndSave(e.target.value)}
         textareaRef={inputEl}
