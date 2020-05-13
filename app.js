@@ -84,7 +84,7 @@ function ObjectField ({ sdk }) {
 
   useEffect(() => {
     const omdbValueChanged = omdbField.onValueChanged(value => {
-      console.log('omdbValeChanged');
+      console.log('omdbValueChanged');
       omdbSetState(value);
     });
 
@@ -130,7 +130,7 @@ function ObjectField ({ sdk }) {
       <Textarea
         name="omdbData"
         id="omdbData"
-        value={JSON.stringify(omdbValue)}
+        value={omdbValue}
         readOnly={true}
         onChange={onChange}
         textareaRef={inputEl}
@@ -151,7 +151,7 @@ function ObjectField ({ sdk }) {
       <Button
         buttonType="negative"
         onClick={() => {
-          omdbSetState(null);
+          validateAndSave(null);
         }}
       >
         Clear Field
