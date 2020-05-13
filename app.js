@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect, useCallback, useRef, useLayoutEffect } from 'react';
+import React, { Component, useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { render } from 'react-dom';
 
@@ -64,6 +64,7 @@ Config.propTypes = {
 
 function ObjectField ({ sdk }) {
   const [buttonLoadingValue, buttonSetLoading] = useState(false);
+  const [omdbValue, omdbSetState] = useState(sdk.field.getValue());
   const imdbField = sdk.entry.fields['imdb'];
   const imdbValue = sdk.entry.fields['imdb'].getValue();
   const omdbField = sdk.field;
@@ -83,29 +84,24 @@ function ObjectField ({ sdk }) {
 
   useEffect(() => {
     const omdbValueChanged = omdbField.onValueChanged(value => {
-      let newValue;
-      if (typeof value === 'undefined') {
-        newValue = '';
-      } else {
-        newValue = typeof value === 'object' ? JSON.stringify(value) : value;
-      }
-
-      if (newValue !== inputEl.current.value) {
-        inputEl.current.value = newValue;
-      }
+      console.log('omdbValeChanged');
+      omdbSetState(value);
     });
 
     return () => {
       omdbValueChanged();
     }
-  }, [inputEl, omdbField]);
+  }, [omdbField]);
 
-  const validateAndSave = debounce((data) => {
-    if (data === '') {
+  const onChange = debounce((event) => {
+    const value = event.currentTarget.value;
+    console.log('onChange', value);
+    omdbSetState(value);
+    if (value === null) {
       sdk.field.setInvalid(false);
       sdk.field.removeValue();
-    } else if (isValidJson(data)) {
-      const val = typeof data === 'string' ? JSON.parse(data) : data;
+    } else if (isValidJson(value)) {
+      const val = typeof value === 'string' ? JSON.parse(value) : value;
       sdk.field.setInvalid(false);
       sdk.field.setValue(val);
     } else {
@@ -122,21 +118,21 @@ function ObjectField ({ sdk }) {
     if (matches) {
       const data = await getMovie(apiKey, matches[1]);
       if (typeof data === 'object' && data.Response.toLowerCase() === 'true') {
-        validateAndSave(data);
+        omdbSetState(data);
       } else {
         sdk.notifier.error(`Error fetching data. ${data.Error || ''}`);
       }
     }
-  }, [validateAndSave, sdk.parameters.installation.omdbApiKey, sdk.notifier]);
+  }, [sdk.parameters.installation.omdbApiKey, sdk.notifier]);
 
   return (
     <>
       <Textarea
         name="omdbData"
         id="omdbData"
-        value={JSON.stringify(omdbField.getValue())}
+        value={JSON.stringify(omdbValue)}
         readOnly={true}
-        onChange={e => validateAndSave(e.target.value)}
+        onChange={onChange}
         textareaRef={inputEl}
       />
       <Button
@@ -155,7 +151,7 @@ function ObjectField ({ sdk }) {
       <Button
         buttonType="negative"
         onClick={() => {
-          validateAndSave('');
+          omdbSetState(null);
         }}
       >
         Clear Field
