@@ -65,22 +65,24 @@ Config.propTypes = {
 function ObjectField ({ sdk }) {
   const [buttonLoadingValue, buttonSetLoading] = useState(false);
   const [omdbValue, omdbSetState] = useState(sdk.field.getValue());
-  const imdbField = sdk.entry.fields['imdb'];
-  const imdbValue = sdk.entry.fields['imdb'].getValue();
+  const [imdbFieldValue, imdbSetState] = useState(sdk.entry.fields['imdb'].getValue());
   const omdbField = sdk.field;
+  const imdbField = sdk.entry.fields['imdb'];
   const inputEl = useRef();
 
   useEffect(() => {
     const imdbValueChanged = imdbField.onValueChanged(value => {
-      if (value && value !== imdbValue) {
-        updateOmdbField(value);
-      }
+      imdbSetState(value);
     });
 
     return () => {
       imdbValueChanged();
     }
-  }, [imdbField, imdbValue, updateOmdbField]);
+  }, [imdbField]);
+  
+  useEffect(() => {
+    updateOmdbField(imdbFieldValue);
+  }, [imdbFieldValue, updateOmdbField])
 
   useEffect(() => {
     console.log('ombdValue Effect');
