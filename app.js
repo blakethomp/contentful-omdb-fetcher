@@ -93,15 +93,14 @@ function ObjectField ({ sdk }) {
     }
   }, [omdbField]);
 
-  const onChange = debounce((event) => {
-    const value = event.currentTarget.value;
-    console.log('onChange', value);
-    omdbSetState(value);
-    if (!value) {
+  const validateAndSave = debounce((data) => {
+    console.log('validateAndSave', value);
+    omdbSetState(data);
+    if (!data) {
       sdk.field.setInvalid(false);
       sdk.field.removeValue();
-    } else if (isValidJson(value)) {
-      const val = typeof value === 'string' ? JSON.parse(value) : value;
+    } else if (isValidJson(data)) {
+      const val = typeof data === 'string' ? JSON.parse(data) : data;
       sdk.field.setInvalid(false);
       sdk.field.setValue(val);
     } else {
@@ -118,7 +117,7 @@ function ObjectField ({ sdk }) {
     if (matches) {
       const data = await getMovie(apiKey, matches[1]);
       if (typeof data === 'object' && data.Response.toLowerCase() === 'true') {
-        omdbSetState(data);
+        validateAndSave(data);
       } else {
         sdk.notifier.error(`Error fetching data. ${data.Error || ''}`);
       }
@@ -132,7 +131,7 @@ function ObjectField ({ sdk }) {
         id="omdbData"
         value={omdbValue}
         readOnly={true}
-        onChange={onChange}
+        onChange={e => validateAndSave(e.target.value)}
         textareaRef={inputEl}
       />
       <Button
