@@ -97,7 +97,7 @@ function ObjectField ({ sdk }) {
     const value = event.currentTarget.value;
     console.log('onChange', value);
     omdbSetState(value);
-    if (value === null) {
+    if (!value) {
       sdk.field.setInvalid(false);
       sdk.field.removeValue();
     } else if (isValidJson(value)) {
@@ -151,7 +151,7 @@ function ObjectField ({ sdk }) {
       <Button
         buttonType="negative"
         onClick={() => {
-          validateAndSave(null);
+          sdk.field.removeValue();
         }}
       >
         Clear Field
