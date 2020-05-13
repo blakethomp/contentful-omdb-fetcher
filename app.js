@@ -64,6 +64,7 @@ Config.propTypes = {
 
 function ObjectField ({ sdk }) {
   const [buttonLoadingValue, buttonSetLoading] = useState(false);
+  const [omdbValue, omdbSetState] = useState(sdk.field.getValue());
   const imdbField = sdk.entry.fields['imdb'];
   const imdbValue = sdk.entry.fields['imdb'].getValue();
   const omdbField = sdk.field;
