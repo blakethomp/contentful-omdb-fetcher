@@ -84,7 +84,7 @@ function ObjectField ({ sdk }) {
 
   useEffect(() => {
     const omdbValueChanged = omdbField.onValueChanged(value => {
-      console.log('omdbValueChanged');
+      console.log('omdbValueChanged', value);
       omdbSetState(value);
     });
 
@@ -94,7 +94,7 @@ function ObjectField ({ sdk }) {
   }, [omdbField]);
 
   const validateAndSave = debounce((data) => {
-    console.log('validateAndSave', value);
+    console.log('validateAndSave', data);
     omdbSetState(data);
     if (!data) {
       sdk.field.setInvalid(false);
@@ -122,7 +122,9 @@ function ObjectField ({ sdk }) {
         sdk.notifier.error(`Error fetching data. ${data.Error || ''}`);
       }
     }
-  }, [sdk.parameters.installation.omdbApiKey, sdk.notifier]);
+    
+    return;
+  }, [validateAndSave, sdk.parameters.installation.omdbApiKey, sdk.notifier]);
 
   return (
     <>
