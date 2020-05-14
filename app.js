@@ -87,7 +87,7 @@ function ObjectField ({ sdk }) {
       omdbSetState(value);
     });
 
-    return omdbValueChanged();
+    return omdbValueChanged;
   });
 
   const validateAndSave = debounce((data) => {
