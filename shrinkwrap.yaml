@@ -5,16 +5,16 @@ dependencies:
   '@babel/preset-react': 7.0.0
   '@babel/runtime': 7.5.4
   '@contentful/forma-36-fcss': 0.0.35
-  '@contentful/forma-36-react-components': 3.37.2
+  '@contentful/forma-36-react-components': 3.37.3
   '@contentful/forma-36-tokens': 0.5.2
   babel-loader: 8.0.5
-  contentful-ui-extensions-sdk: 3.10.6
+  contentful-ui-extensions-sdk: 3.14.3
   css-loader: 3.2.0
   eslint-plugin-react-hooks: 0.0.0-33c3af284
   express: 4.17.1
   prop-types: 15.7.2
-  react: 16.10.1
-  react-dom: 16.10.1
+  react: 16.13.1
+  react-dom: 16.13.1
   style-loader: 1.0.0
   webpack: 4.41.0
   webpack-cli: 3.3.9
@@ -792,7 +792,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-ER81LumiXEZF0y0XgpGTLTj1119wjgs3xIYyphYz0qvzQghzNH28XE/8qBMG5WeqdtThtZFVK6E7nDa1e/MSYw==
-  /@contentful/forma-36-react-components/3.37.2:
+  /@contentful/forma-36-react-components/3.37.3:
     dependencies:
       '@babel/runtime': 7.5.4
       classnames: 2.2.6
@@ -806,7 +806,7 @@ packages:
       react: ^16.3.0
       react-dom: ^16.3.0
     resolution:
-      integrity: sha512-8V/PKJdjhLy0l+p9u+u6lGq8t8gl4u0WtOB1hs8Y1mhTzTxbCeZfxUZkPKcTn3pvJDgOmRaQ9QJjdzmADJ3PUQ==
+      integrity: sha512-A/Dktg4cOTITJnbWWk6eRX5HVuGcVHbq7Ssz9ZvaatmcJ0T+dOtHakW25PPcVevXzBi/l6StWYbwLQ5THYh5Uw==
   /@contentful/forma-36-tokens/0.5.2:
     dev: false
     resolution:
@@ -1563,12 +1563,12 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-hIP3EEPs8tB9AT1L+NUqtwOAps4mk2Zob89MWXMHjHWg9milF/j4osnnQLXBCBFBk/tvIG/tUc9mOUJiPBhPXA==
-  /contentful-ui-extensions-sdk/3.10.6:
+  /contentful-ui-extensions-sdk/3.14.3:
     dependencies:
       es6-promise: 4.2.8
     dev: false
     resolution:
-      integrity: sha512-mVxIQay3Vp23BL/iG80tIZ5PbUg4slouYHK2zvG/0GHKpsXx/MSEf52gpUM3UxpXaxn7zv3shZ5plEC4msn5bQ==
+      integrity: sha512-Qu5BLtv08YfxhoserC4qAZ+vOGYG0cqCCpldO+QOwtZEsjUGF/12i9+Pfw+jQJSyOmPJzfz7TkNIoUbZFcxpaw==
   /convert-source-map/1.6.0:
     dependencies:
       safe-buffer: 5.1.2
@@ -4042,17 +4042,17 @@ packages:
       react: ^15.3.0 || ^16.0.0
     resolution:
       integrity: sha512-/2t5mLMMPuN5GmdXo6TebFa8IoFxZ+KTDDqYhcDm0PhkgEzSxVvIX26G20s1EB02A4h2UZgwtfymZ3lGJm0OLg==
-  /react-dom/16.10.1:
+  /react-dom/16.13.1:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       prop-types: 15.7.2
-      scheduler: 0.16.1
+      scheduler: 0.19.1
     dev: false
     peerDependencies:
-      react: ^16.0.0
+      react: ^16.13.1
     resolution:
-      integrity: sha512-SmM4ZW0uug0rn95U8uqr52I7UdNf6wdGLeXDmNLfg3y5q5H9eAbdjF5ubQc3bjDyRrvdAB2IKG7X0GzSpnn5Mg==
+      integrity: sha512-81PIMmVLnCNLO/fFOQxdQkvEq/+Hfpv24XNJfpyZhTRfO0QcmQIF/PgCa1zCOj2w1hrn12MFLyaJ/G0+Mxtfag==
   /react-is/16.13.1:
     resolution:
       integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
@@ -4084,7 +4084,7 @@ packages:
       react-dom: '>=15.0.0'
     resolution:
       integrity: sha512-+HzNTCHpeQyl4MJ/bdE0u6XRMe9+XG/+aL4mCxVN4DnPBQ0/5bfHWPDuOZUzYdMj94daZaZdCCc1Dzt9R/xSSg==
-  /react/16.10.1:
+  /react/16.13.1:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
@@ -4093,7 +4093,7 @@ packages:
     engines:
       node: '>=0.10.0'
     resolution:
-      integrity: sha512-2bisHwMhxQ3XQz4LiJJwG3360pY965pTl/MRrZYxIBKVj4fOHoDs5aZAkYXGxDRO1Li+SyjTAilQEbOmtQJHzA==
+      integrity: sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
   /readable-stream/2.3.6:
     dependencies:
       core-util-is: 1.0.2
@@ -4334,13 +4334,13 @@ packages:
   /safer-buffer/2.1.2:
     resolution:
       integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
-  /scheduler/0.16.1:
+  /scheduler/0.19.1:
     dependencies:
       loose-envify: 1.4.0
       object-assign: 4.1.1
     dev: false
     resolution:
-      integrity: sha512-MIuie7SgsqMYOdCXVFZa8SKoNorJZUWHW8dPgto7uEHn1lX3fg2Gu0TzgK8USj76uxV7vB5eRMnZs/cdEHg+cg==
+      integrity: sha512-n/zwRWRYSUj0/3g/otKDRPMh6qv2SYMWNq85IEa8iZyAv8od9zDYpGSnpBEjNgcMNq6Scbu5KfIPxNF72R/2EA==
   /schema-utils/1.0.0:
     dependencies:
       ajv: 6.10.2
@@ -5244,18 +5244,18 @@ specifiers:
   '@babel/preset-react': 7.0.0
   '@babel/runtime': 7.5.4
   '@contentful/forma-36-fcss': 0.0.35
-  '@contentful/forma-36-react-components': ^3.37.2
+  '@contentful/forma-36-react-components': ^3.37.3
   '@contentful/forma-36-tokens': ^0.5.2
   babel-loader: 8.0.5
-  contentful-ui-extensions-sdk: 3.10.6
+  contentful-ui-extensions-sdk: ^3.14.3
   css-loader: 3.2.0
   eslint: ^6.8.0
   eslint-plugin-react: ^7.19.0
   eslint-plugin-react-hooks: 0.0.0-33c3af284
   express: 4.17.1
   prop-types: ^15.7.2
-  react: 16.10.1
-  react-dom: 16.10.1
+  react: ^16.13.1
+  react-dom: ^16.13.1
   style-loader: 1.0.0
   webpack: 4.41.0
   webpack-cli: 3.3.9
