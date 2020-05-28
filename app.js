@@ -100,7 +100,7 @@ function ObjectField ({ sdk }) {
       sdk.field.setInvalid(false);
       sdk.field.setValue(val);
       // Update other fields with OMDB data.
-      updateEntry(sdk.entry, val);      
+      updateEntry(val);      
     } else {
       sdk.field.setInvalid(true)
     }
@@ -124,10 +124,17 @@ function ObjectField ({ sdk }) {
     return;
   }, [validateAndSave, sdk.parameters.installation.omdbApiKey, sdk.notifier]);
   
-  const updateEntry(omdbData) {
-    sdk.entry.fields['title'].setValue(val.Title);
-    const genres = val.Genre.split(', ');
-    sdk.space.getEntries({})
+  async function updateEntry(omdbData) {
+    sdk.entry.fields['title'].setValue(omdbData.Title);
+    console.log(omdbData);
+    const genres = omdbData.Genre.split(', ');
+    console.log(sdk);
+    
+    const genreEntries = await sdk.space.getEntries({
+      'content_type': 'genre',
+      'field.name[in]': genres
+    });
+    console.log(genreEntries);
   }
 
   return (
