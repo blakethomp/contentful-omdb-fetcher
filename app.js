@@ -138,8 +138,26 @@ function ObjectField ({ sdk }) {
     if (genreEntries.total === genres.length) {
       sdk.entry.fields['genre'].setValue(genreEntries.items);
     } else {
+      const newGenres = [];
       genres.forEach(genre => {
-        if (!genreEntries.find(element => element.fields.))
+        let genreEntry = genreEntries.items.find(element => element.fields.name[sdk.field.locale] === genre);
+        if (!genreEntry) {
+            genreEntry = await sdk.space.createEntry('genre', {
+              fields: {
+                name: {
+                  []
+                }
+              }
+            });
+        }
+
+        newGenres.push({
+            sys: {
+                type: 'Link',
+                linkType: genreEntry.sys.type,
+                id: genreEntry.sys.id,
+            }
+        })
       });
     }
   }
