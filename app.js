@@ -99,6 +99,8 @@ function ObjectField ({ sdk }) {
       const val = typeof data === 'string' ? JSON.parse(data) : data;
       sdk.field.setInvalid(false);
       sdk.field.setValue(val);
+      // Update other fields with OMDB data.
+      updateEntry(sdk.entry, val);      
     } else {
       sdk.field.setInvalid(true)
     }
@@ -121,6 +123,12 @@ function ObjectField ({ sdk }) {
     
     return;
   }, [validateAndSave, sdk.parameters.installation.omdbApiKey, sdk.notifier]);
+  
+  const updateEntry(omdbData) {
+    sdk.entry.fields['title'].setValue(val.Title);
+    const genres = val.Genre.split(', ');
+    sdk.space.getEntries({})
+  }
 
   return (
     <>
@@ -203,3 +211,4 @@ const isValidJson = str => {
 
   return true;
 };
+
