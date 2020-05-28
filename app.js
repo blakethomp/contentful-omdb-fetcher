@@ -132,9 +132,16 @@ function ObjectField ({ sdk }) {
     
     const genreEntries = await sdk.space.getEntries({
       'content_type': 'genre',
-      'field.name[in]': genres
+      'fields.name[in]': genres
     });
-    console.log(genreEntries);
+    
+    if (genreEntries.total === genres.length) {
+      sdk.entry.fields['genre'].setValue(genreEntries.items);
+    } else {
+      genres.forEach(genre => {
+        if (!genreEntries.find(element => element.fields.))
+      });
+    }
   }
 
   return (
