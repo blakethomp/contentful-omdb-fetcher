@@ -134,7 +134,9 @@ function ObjectField ({ sdk }) {
     });
     
     if (genreEntries.total === omdbGenres.length) {
-      genreLinks = genreEntries.items;
+      genreLinks = genreEntries.items.sort((a, b) => {
+        return omdbGenres.indexOf(a.fields.name[sdk.field.locale]) - omdbGenres.indexOf(b.fields.name[sdk.field.locale]);
+      });
     } else {
       for await (const genre of omdbGenres) {
         let genreEntry = genreEntries.items.find(element => element.fields.name[sdk.field.locale] === genre);
@@ -159,7 +161,7 @@ function ObjectField ({ sdk }) {
         id: link.sys.id,
       }
     }));
-    console.log(genreEntries, omdbGenres, genreLinks, genreValue);
+    
     sdk.entry.fields['genre'].setValue(genreValue);
   }
 
