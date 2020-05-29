@@ -5,12 +5,12 @@ dependencies:
   '@babel/preset-react': 7.0.0
   '@babel/runtime': 7.5.4
   '@contentful/forma-36-fcss': 0.0.35
-  '@contentful/forma-36-react-components': 3.37.3
+  '@contentful/forma-36-react-components': 3.39.3
   '@contentful/forma-36-tokens': 0.5.2
   babel-loader: 8.0.5
   contentful-ui-extensions-sdk: 3.14.3
   css-loader: 3.2.0
-  eslint-plugin-react-hooks: 0.0.0-33c3af284
+  eslint-plugin-react-hooks: 4.0.4
   express: 4.17.1
   prop-types: 15.7.2
   react: 16.13.1
@@ -792,7 +792,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-ER81LumiXEZF0y0XgpGTLTj1119wjgs3xIYyphYz0qvzQghzNH28XE/8qBMG5WeqdtThtZFVK6E7nDa1e/MSYw==
-  /@contentful/forma-36-react-components/3.37.3:
+  /@contentful/forma-36-react-components/3.39.3:
     dependencies:
       '@babel/runtime': 7.5.4
       classnames: 2.2.6
@@ -806,7 +806,7 @@ packages:
       react: ^16.3.0
       react-dom: ^16.3.0
     resolution:
-      integrity: sha512-A/Dktg4cOTITJnbWWk6eRX5HVuGcVHbq7Ssz9ZvaatmcJ0T+dOtHakW25PPcVevXzBi/l6StWYbwLQ5THYh5Uw==
+      integrity: sha512-68F9YRILhtfzICfprQ3IE29pClcQXAug0USmucgcygC7I4bWmgthg0QiC3bNsOMPcojf/VBj9yd4FMo/RlRSqg==
   /@contentful/forma-36-tokens/0.5.2:
     dev: false
     resolution:
@@ -1973,14 +1973,14 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
-  /eslint-plugin-react-hooks/0.0.0-33c3af284:
+  /eslint-plugin-react-hooks/4.0.4:
     dev: false
     engines:
       node: '>=10'
     peerDependencies:
-      eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
+      eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
     resolution:
-      integrity: sha512-oa9DKhjhdzinn0Ohou4uiSpvta2frBA8g78OcLtTuV/PTAAXUg6QpJM0APlKctXaLW4njWSy4gtZVG3Agx9otQ==
+      integrity: sha512-equAdEIsUETLFNCmmCkiCGq6rkSK5MoJhXFPFYeUebcjKgBmWWcgVOqZyQC8Bv1BwVCnTq9tBxgJFgAJTWoJtA==
   /eslint-plugin-react/7.19.0:
     dependencies:
       array-includes: 3.1.1
@@ -5244,14 +5244,14 @@ specifiers:
   '@babel/preset-react': 7.0.0
   '@babel/runtime': 7.5.4
   '@contentful/forma-36-fcss': 0.0.35
-  '@contentful/forma-36-react-components': ^3.37.3
+  '@contentful/forma-36-react-components': ^3.39.1
   '@contentful/forma-36-tokens': ^0.5.2
   babel-loader: 8.0.5
   contentful-ui-extensions-sdk: ^3.14.3
   css-loader: 3.2.0
   eslint: ^6.8.0
   eslint-plugin-react: ^7.19.0
-  eslint-plugin-react-hooks: 0.0.0-33c3af284
+  eslint-plugin-react-hooks: ^4.0.4
   express: 4.17.1
   prop-types: ^15.7.2
   react: ^16.13.1
