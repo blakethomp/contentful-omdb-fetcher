@@ -157,7 +157,7 @@ function ObjectField ({ sdk }) {
         })
       }
     }
-    
+    console.log(genreValue);
     sdk.entry.fields['genre'].setValue(genreValue);
   }
 
