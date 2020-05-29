@@ -126,17 +126,17 @@ function ObjectField ({ sdk }) {
   
   async function updateEntry(omdbData) {
     sdk.entry.fields['title'].setValue(omdbData.Title);
-    let genreValue;
-    const genres = omdbData.Genre.split(', ');    
+    const genreLinks = [];
+    const omdbGenres = omdbData.Genre.split(', ');    
     const genreEntries = await sdk.space.getEntries({
       'content_type': 'genre',
-      'fields.name[in]': genres
+      'fields.name[in]': omdbGenres
     });
     
-    if (genreEntries.total === genres.length) {
-      genreValue = genreEntries.items;
+    if (genreEntries.total === omdbGenres.length) {
+      genreLinks = genreEntries.items;
     } else {
-      for await (const genre of genres) {
+      for await (const genre of omdbGenres) {
         let genreEntry = genreEntries.items.find(element => element.fields.name[sdk.field.locale] === genre);
         if (!genreEntry) {
           genreEntry = await sdk.space.createEntry('genre', {
@@ -148,16 +148,17 @@ function ObjectField ({ sdk }) {
           });
         }
 
-        genreValue.push({
-            sys: {
-                type: 'Link',
-                linkType: genreEntry.sys.type,
-                id: genreEntry.sys.id,
-            }
-        })
+        genreLinks.push(genreEntry)
       }
     }
-    console.log(genreValue);
+    
+    const genreValue = genreLinks.map(link => ({
+      sys: {
+        type: 'Link',
+        linkType: link.sys.type,
+        id: link.sys.id,
+      }
+    }));
     sdk.entry.fields['genre'].setValue(genreValue);
   }
 
