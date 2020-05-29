@@ -134,7 +134,7 @@ function ObjectField ({ sdk }) {
     });
     
     if (genreEntries.total === omdbGenres.length) {
-      genreLinks = genreEntries.items;
+      genreLinks.concat(genreEntries.items);
     } else {
       for await (const genre of omdbGenres) {
         let genreEntry = genreEntries.items.find(element => element.fields.name[sdk.field.locale] === genre);
@@ -159,6 +159,7 @@ function ObjectField ({ sdk }) {
         id: link.sys.id,
       }
     }));
+    console.log(genreLinks, genreValue);
     sdk.entry.fields['genre'].setValue(genreValue);
   }
 
