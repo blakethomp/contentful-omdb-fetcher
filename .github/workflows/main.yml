@@ -28,4 +28,5 @@ jobs:
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        rsync -i ~/.ssh/id_rsa -e "ssh -o StrictHostKeyChecking=no" --chown=www-data:www-data ./public/bundle.js ./app.html ${{ secrets.USER }}@${{ secrets.HOST }}:${{ secrets.TARGET }}
+        ssh-keyscan "${{ secrets.HOST }}" >> ~/.ssh/known_hosts
+        rsync -i ~/.ssh/id_rsa --chown=www-data:www-data ./public/bundle.js ./app.html ${{ secrets.USER }}@${{ secrets.HOST }}:${{ secrets.TARGET }}
