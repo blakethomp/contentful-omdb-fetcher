@@ -18,7 +18,9 @@ init(sdk => {
 
   ReactDOM.render(<Component sdk={sdk} />, document.getElementById('root'));
 
-  sdk.window.startAutoResizer();
+  if (sdk.window) {
+    sdk.window.startAutoResizer();
+  }
 });
 
 class Config extends Component {
