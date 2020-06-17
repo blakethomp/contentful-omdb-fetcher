@@ -1,16 +1,22 @@
 import React, { Component, useState, useEffect, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { render } from 'react-dom';
-
+import ReactDOM from 'react-dom';
 import { init, locations } from 'contentful-ui-extensions-sdk';
+import Heading from '@contentful/forma-36-react-components/dist/components/Typography/Heading';
+import Note from '@contentful/forma-36-react-components/dist/components/Note';
+import Form from '@contentful/forma-36-react-components/dist/components/Form';
+import TextField from '@contentful/forma-36-react-components/dist/components/TextField';
+import Textarea from '@contentful/forma-36-react-components/dist/components/Textarea';
+import Button from '@contentful/forma-36-react-components/dist/components/Button';
+
 import '@contentful/forma-36-react-components/dist/styles.css';
 import '@contentful/forma-36-fcss/dist/styles.css';
-import { Heading, Note, Form, TextField, Textarea, Button } from '@contentful/forma-36-react-components';
+import './css/global.css';
 
 init(sdk => {
   const Component = sdk.location.is(locations.LOCATION_APP_CONFIG) ? Config : ObjectField;
 
-  render(<Component sdk={sdk} />, document.getElementById('root'));
+  ReactDOM.render(<Component sdk={sdk} />, document.getElementById('root'));
 
   sdk.window.startAutoResizer();
 });
@@ -38,15 +44,15 @@ class Config extends Component {
         <Note noteType="primary" title="About the app">
           Enter your OMDB API key.
         </Note>
+        <label forHtml="omdb-api-key">OMDb API Key</label>
         <TextField
           required
           name="omdb-api-key"
           id="omdb-api-key"
-          labelText="OMDB API Key"
+          label="OMDb API Key"
           value={this.state.parameters.omdbApiKey || null}
           onChange={e => this.setState({ parameters: { omdbApiKey: e.target.value } })}
-        >
-        </TextField>
+        />
       </Form>
     );
   }
@@ -77,7 +83,7 @@ function ObjectField ({ sdk }) {
 
     return imdbValueChanged;
   });
-  
+
   useEffect(() => {
     updateOmdbField(imdbFieldValue);
   }, [imdbFieldValue, updateOmdbField])
@@ -100,7 +106,7 @@ function ObjectField ({ sdk }) {
       sdk.field.setInvalid(false);
       sdk.field.setValue(val);
       // Update other fields with OMDB data.
-      updateEntry(val);      
+      updateEntry(val);
     } else {
       sdk.field.setInvalid(true)
     }
@@ -120,19 +126,19 @@ function ObjectField ({ sdk }) {
         sdk.notifier.error(`Error fetching data. ${data.Error || ''}`);
       }
     }
-    
+
     return;
   }, [validateAndSave, sdk.parameters.installation.omdbApiKey, sdk.notifier]);
-  
+
   async function updateEntry(omdbData) {
     sdk.entry.fields['title'].setValue(omdbData.Title);
     let genreLinks = [];
-    const omdbGenres = omdbData.Genre.split(', ');    
+    const omdbGenres = omdbData.Genre.split(', ');
     const genreEntries = await sdk.space.getEntries({
       'content_type': 'genre',
       'fields.name[in]': omdbGenres
     });
-    
+
     if (genreEntries.total === omdbGenres.length) {
       genreLinks = genreEntries.items.sort((a, b) => {
         return omdbGenres.indexOf(a.fields.name[sdk.field.locale]) - omdbGenres.indexOf(b.fields.name[sdk.field.locale]);
@@ -153,7 +159,7 @@ function ObjectField ({ sdk }) {
         genreLinks.push(genreEntry)
       }
     }
-    
+
     const genreValue = genreLinks.map(link => ({
       sys: {
         type: 'Link',
@@ -161,7 +167,7 @@ function ObjectField ({ sdk }) {
         id: link.sys.id,
       }
     }));
-    
+
     sdk.entry.fields['genre'].setValue(genreValue);
   }
 
@@ -246,4 +252,3 @@ const isValidJson = str => {
 
   return true;
 };
-
