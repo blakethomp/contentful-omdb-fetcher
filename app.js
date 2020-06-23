@@ -135,19 +135,19 @@ function ObjectField ({ sdk }) {
   async function updateEntry(omdbData) {
     sdk.entry.fields['title'].setValue(omdbData.Title);
     let genreLinks = [];
-    const omdbGenres = omdbData.Genre.split(', ');
-    const genreEntries = await sdk.space.getEntries({
-      'content_type': 'genre',
-      'fields.name[in]': omdbGenres
-    });
-
-    if (genreEntries.total === omdbGenres.length) {
-      genreLinks = genreEntries.items.sort((a, b) => {
-        return omdbGenres.indexOf(a.fields.name[sdk.field.locale]) - omdbGenres.indexOf(b.fields.name[sdk.field.locale]);
+    const omdbGenres = omdbData.Genre.split(', ').filter(genre => genre !== 'N/A');
+    if (omdbGenres.length > 0) {
+      const genreEntries = await sdk.space.getEntries({
+        'content_type': 'genre',
+        'fields.name[in]': omdbGenres
       });
-    } else {
-      for await (const genre of omdbGenres) {
-        if (genre !== 'N/A') {
+
+      if (genreEntries.total === omdbGenres.length) {
+        genreLinks = genreEntries.items.sort((a, b) => {
+          return omdbGenres.indexOf(a.fields.name[sdk.field.locale]) - omdbGenres.indexOf(b.fields.name[sdk.field.locale]);
+        });
+      } else {
+        for await (const genre of omdbGenres) {
           let genreEntry = genreEntries.items.find(element => element.fields.name[sdk.field.locale] === genre);
           if (!genreEntry) {
             genreEntry = await sdk.space.createEntry('genre', {
@@ -162,17 +162,17 @@ function ObjectField ({ sdk }) {
           genreLinks.push(genreEntry)
         }
       }
+
+      const genreValue = genreLinks.map(link => ({
+        sys: {
+          type: 'Link',
+          linkType: link.sys.type,
+          id: link.sys.id,
+        }
+      }));
+
+      sdk.entry.fields['genre'].setValue(genreValue);
     }
-
-    const genreValue = genreLinks.map(link => ({
-      sys: {
-        type: 'Link',
-        linkType: link.sys.type,
-        id: link.sys.id,
-      }
-    }));
-
-    sdk.entry.fields['genre'].setValue(genreValue);
   }
 
   return (
